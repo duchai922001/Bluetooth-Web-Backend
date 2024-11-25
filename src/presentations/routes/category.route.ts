@@ -17,7 +17,7 @@ import { UpdateIsDeleteCategoryDto } from "../dtos/category/update-isDelete-cate
 const categoryRoutes = Router();
 
 categoryRoutes.post(
-  "/category",
+  "/create",
   verifyToken,
   authorizeRoles(RoleEnum.ADMIN, RoleEnum.STAFF),
   transformAndValidate(CreateCategoryDto),
@@ -25,7 +25,7 @@ categoryRoutes.post(
 );
 
 categoryRoutes.put(
-  "/category",
+  "/update",
   verifyToken,
   authorizeRoles(RoleEnum.ADMIN, RoleEnum.STAFF),
   transformAndValidate(UpdateCategoryDto),
@@ -33,7 +33,7 @@ categoryRoutes.put(
 );
 
 categoryRoutes.put(
-  "/delete-category",
+  "/delete-soft",
   verifyToken,
   authorizeRoles(RoleEnum.ADMIN, RoleEnum.STAFF),
   transformAndValidate(UpdateIsDeleteCategoryDto),
@@ -41,12 +41,12 @@ categoryRoutes.put(
 );
 
 categoryRoutes.put(
-  "/restore-category",
+  "/restore",
   verifyToken,
   authorizeRoles(RoleEnum.ADMIN, RoleEnum.STAFF),
   transformAndValidate(UpdateIsDeleteCategoryDto),
   catchAsync(restoreCategoryController)
 );
 
-categoryRoutes.get("/categories", catchAsync(getAllCategoriesController));
+categoryRoutes.get("/get-all", catchAsync(getAllCategoriesController));
 export default categoryRoutes;

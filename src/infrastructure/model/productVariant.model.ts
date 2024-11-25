@@ -16,7 +16,7 @@ const ProductVariantSchema: Schema = new Schema(
     quantity: { type: Number, required: true },
     price: { type: Number, required: true },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 export const ProductVariant = mongoose.model<IProductVariant>(
