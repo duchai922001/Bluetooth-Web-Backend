@@ -7,3 +7,21 @@ export const createBrandService = async (brand: Partial<IBrand>) => {
   const createBrandDTO = await createAndValidateDto(BrandDTO, brand);
   return await brandRepository.createBrand(createBrandDTO);
 };
+
+export const deleteSoftBrandService = async (brandId: string) => {
+  const arrBrandIds = brandId.split(",").map((id) => id.trim());
+  await Promise.all(
+    arrBrandIds.map(
+      async (id) => await brandRepository.updateIsDeleted(id, true)
+    )
+  );
+};
+
+export const restoreBrandService = async (brandId: string) => {
+  const arrBrandIds = brandId.split(",").map((id) => id.trim());
+  await Promise.all(
+    arrBrandIds.map(
+      async (id) => await brandRepository.updateIsDeleted(id, false)
+    )
+  );
+};
