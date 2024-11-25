@@ -8,7 +8,7 @@ export interface IResponseSuccess<T> {
 export function successResponse<T>(
   statusCode: number,
   message: string,
-  data: T
+  data?: T
 ): IResponseSuccess<T> {
   return {
     statusCode,

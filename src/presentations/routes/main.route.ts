@@ -5,12 +5,22 @@ import userRoutes from "./auth.route";
 import { BadRequestException } from "../../domain/exceptions/bad-request.exception";
 import { HttpStatus } from "../../domain/enums/http-status.enum";
 import categoryRoutes from "./category.route";
+import variantRoutes from "./variant.route";
+import productRoutes from "./product.route";
+import specificaionRoutes from "./specification.route";
+import shoppingCartRoutes from "./shopping-cart.route";
+import brandRoutes from "./brand.route";
 
 export const mainRoutes = (app: any) => {
   app.use("/", userRoutes);
-  app.use("/", categoryRoutes);
+  app.use("/category", categoryRoutes);
+  app.use("/brand", brandRoutes);
+  app.use("/variant", variantRoutes);
+  app.use("/specification", specificaionRoutes);
+  app.use("/product", productRoutes);
+  app.use("/shopping", shoppingCartRoutes);
   app.use("*", (req: Request, res: Response) => {
-    const notFoundException = new NotFoundException("Page not found");
+    const notFoundException = new NotFoundException("Endpoint not found");
     res.status(HttpStatus.NOT_FOUND).json(notFoundException.toResponse());
   });
   app.use((err: any, req: Request, res: Response, next: NextFunction) => {
