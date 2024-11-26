@@ -4,6 +4,9 @@ import { IShoppingCartRepository } from "../../domain/repositories/shopping-cart
 import { IShoppingCart, ShoppingCart } from "../model/shoppingCart.model";
 
 export class ShoppingCartRepositoryImpl implements IShoppingCartRepository {
+  async getAllCarts(): Promise<IShoppingCart[]> {
+    return await ShoppingCart.find();
+  }
   async getCart(userId: string): Promise<IShoppingCart | null> {
     return await ShoppingCart.findOne({ userId: userId });
   }

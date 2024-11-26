@@ -10,6 +10,7 @@ export interface IProduct extends Document {
   variants: mongoose.Types.ObjectId[];
   specifications: mongoose.Types.ObjectId[];
   status: ProductStatus;
+  countSold: number;
   isDeleted: boolean;
 }
 
@@ -37,6 +38,7 @@ const ProductSchema: Schema = new Schema<IProduct>(
       enum: Object.values(ProductStatus),
       default: ProductStatus.AVAILABLE,
     },
+    countSold: { type: Number, default: 0 },
     isDeleted: { type: Boolean, default: false },
   },
   {
