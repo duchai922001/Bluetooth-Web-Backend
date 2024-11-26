@@ -10,6 +10,8 @@ import productRoutes from "./product.route";
 import specificaionRoutes from "./specification.route";
 import shoppingCartRoutes from "./shopping-cart.route";
 import brandRoutes from "./brand.route";
+import orderRoutes from "./order.route";
+import statisticalRoutes from "./statistical.route";
 
 export const mainRoutes = (app: any) => {
   app.use("/", userRoutes);
@@ -19,6 +21,8 @@ export const mainRoutes = (app: any) => {
   app.use("/specification", specificaionRoutes);
   app.use("/product", productRoutes);
   app.use("/shopping", shoppingCartRoutes);
+  app.use("/order", orderRoutes);
+  app.use("/statistical", statisticalRoutes);
   app.use("*", (req: Request, res: Response) => {
     const notFoundException = new NotFoundException("Endpoint not found");
     res.status(HttpStatus.NOT_FOUND).json(notFoundException.toResponse());
