@@ -1,5 +1,5 @@
 import { IBrand } from "../infrastructure/model/brand.model";
-import { BrandRepositoryImpl } from "../infrastructure/repositoriesImpl/brand.reposity.impl";
+import { BrandRepositoryImpl } from "../infrastructure/repositoriesImpl/brand.repository.impl";
 import { BrandDTO } from "../presentations/dtos/brand/brand.dto";
 import { createAndValidateDto } from "../utils/createAndValidateDto.util";
 const brandRepository = new BrandRepositoryImpl();

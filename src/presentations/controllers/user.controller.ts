@@ -46,6 +46,7 @@ export const loginController = async (
   res: Response
 ): Promise<void> => {
   const { username, password } = req.body;
-  const user = await loginService(username, password);
+  const userAgent = req.headers["user-agent"] || "unknown";
+  const user = await loginService(username, password, userAgent);
   res.json(successResponse(HttpStatus.OK, "User logged in successfully", user));
 };
