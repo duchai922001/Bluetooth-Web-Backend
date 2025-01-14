@@ -68,3 +68,7 @@ export const restoreCategoryService = async (
 export const getAllCategoryService = async (): Promise<ICategory[]> => {
   return await categoryRepositry.getAllCategories();
 };
+
+export const getCategoriesActive = async (): Promise<ICategory[]> => {
+  return await categoryRepositry.getCategoriesActive();
+};
