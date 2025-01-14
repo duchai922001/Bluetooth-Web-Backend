@@ -22,4 +22,18 @@ export class BrandRepositoryImpl implements IBrandRepository {
   async createBrand(brand: IBrand): Promise<IBrand> {
     return await Brand.create(brand);
   }
+  async getAllBrands(): Promise<IBrand[]> {
+    return await Brand.find();
+  }
+  async getBrandsActive(): Promise<IBrand[]> {
+    return await Brand.find({ isDeleted: false });
+  }
+  async updateBrand(
+    brandId: string,
+    formUpdate: Partial<IBrand>
+  ): Promise<IBrand | null> {
+    return await Brand.findByIdAndUpdate(brandId, formUpdate, {
+      new: true,
+    });
+  }
 }

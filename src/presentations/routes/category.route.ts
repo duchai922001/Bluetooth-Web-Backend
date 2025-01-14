@@ -50,6 +50,5 @@ categoryRoutes.put(
 );
 
 categoryRoutes.get("/get-all", catchAsync(getAllCategoriesController));
-export default categoryRoutes;
-
 categoryRoutes.get("/get-active", catchAsync(getCategoriesActiveController));
+export default categoryRoutes;
