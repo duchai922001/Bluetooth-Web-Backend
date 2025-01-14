@@ -10,4 +10,5 @@ export interface IProductRepository {
   deleteProduct(productId: string): Promise<boolean>;
   findProductById(productId: string): Promise<IProduct | null>;
   findProductByBrand(brandId: string): Promise<IProduct[]>;
+  findProductByCategory(categoryId: string): Promise<IProduct[]>;
 }

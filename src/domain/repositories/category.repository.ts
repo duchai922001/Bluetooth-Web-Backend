@@ -12,4 +12,5 @@ export interface ICategoryRepository {
   ): Promise<ICategory | null>;
   getAllCategories(): Promise<ICategory[]>;
   deleteCategory(categoryId: string): Promise<void>;
+  getCategoriesActive(): Promise<ICategory[]>;
 }

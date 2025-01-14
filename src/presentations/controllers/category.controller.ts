@@ -3,6 +3,7 @@ import {
   createCategoryService,
   deleteCategoryService,
   getAllCategoryService,
+  getCategoriesActive,
   restoreCategoryService,
   updateCategoryService,
 } from "../../services/category.service";
@@ -57,4 +58,12 @@ export const getAllCategoriesController = async (
   res.json(
     successResponse(HttpStatus.OK, "Get All Categories Success", categories)
   );
+};
+
+export const getCategoriesActiveController = async (
+  req: Request,
+  res: Response
+) => {
+  const categories = await getCategoriesActive();
+  res.json(successResponse(HttpStatus.OK, "Get Categories Active", categories));
 };

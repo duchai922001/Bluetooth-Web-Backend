@@ -8,6 +8,7 @@ import {
   createCategoryController,
   deleteCategoryController,
   getAllCategoriesController,
+  getCategoriesActiveController,
   restoreCategoryController,
   updateCategoryController,
 } from "../controllers/category.controller";
@@ -50,3 +51,5 @@ categoryRoutes.put(
 
 categoryRoutes.get("/get-all", catchAsync(getAllCategoriesController));
 export default categoryRoutes;
+
+categoryRoutes.get("/get-active", catchAsync(getCategoriesActiveController));

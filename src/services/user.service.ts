@@ -6,6 +6,7 @@ import { validateOrReject } from "class-validator";
 import { BadRequestException } from "../domain/exceptions/bad-request.exception";
 import { LoginUserDto } from "../presentations/dtos/user/login-user.dto";
 import jwt from "jsonwebtoken";
+import { UAParser } from "ua-parser-js";
 const userRepository = new UserRepositoryImpl();
 export const register = async (userData: Partial<IUser>): Promise<IUser> => {
   const registerUserDto = Object.assign(new RegisterUserDto(), userData);
@@ -36,7 +37,8 @@ export const register = async (userData: Partial<IUser>): Promise<IUser> => {
 
 export const loginService = async (
   username: string,
-  password: string
+  password: string,
+  userAgent: string
 ): Promise<any> => {
   const loginUserDto = Object.assign(new LoginUserDto(), {
     username,
@@ -57,11 +59,22 @@ export const loginService = async (
   if (!process.env.JWT_SECRET) {
     throw new Error("JWT_SECRET is not set in environment variables");
   }
+  const parser = new UAParser(userAgent);
+  const deviceInfo = parser.getResult();
+  const deviceType = deviceInfo.device.type || "computer";
   const token = jwt.sign(
     { userId: user._id, username: user.username, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: "7d" }
   );
   const { password: _, ...userWithoutPassword } = user.toObject();
-  return { ...userWithoutPassword, access_token: token };
+  return {
+    ...userWithoutPassword,
+    access_token: token,
+    device: {
+      browser: deviceInfo.browser.name,
+      os: deviceInfo.os.name,
+      deviceType: deviceType,
+    },
+  };
 };
