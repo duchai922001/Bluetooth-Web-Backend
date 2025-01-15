@@ -2,6 +2,10 @@ import { ICategoryRepository } from "../../domain/repositories/category.reposito
 import Category, { ICategory } from "../model/category.model";
 
 export class CategoryRepositoryImpl implements ICategoryRepository {
+  async findCategoryById(categoryId: string): Promise<ICategory | null> {
+    //code
+    return await Category.findById(categoryId);
+  }
   async updateIsDeleted(
     categoryId: string,
     status: boolean
