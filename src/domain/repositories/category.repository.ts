@@ -10,6 +10,7 @@ export interface ICategoryRepository {
     categoryId: string,
     status: boolean
   ): Promise<ICategory | null>;
+  findCategoryById(categoryId: string): Promise<ICategory | null>;
   getAllCategories(): Promise<ICategory[]>;
   deleteCategory(categoryId: string): Promise<void>;
   getCategoriesActive(): Promise<ICategory[]>;

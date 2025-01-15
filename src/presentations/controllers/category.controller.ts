@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import {
+  addCategoryTree,
   createCategoryService,
   deleteCategoryService,
   getAllCategoryService,
   getCategoriesActive,
+  getCategoryFormatMenu,
   restoreCategoryService,
   updateCategoryService,
 } from "../../services/category.service";
@@ -17,6 +19,18 @@ export const createCategoryController = async (
   const newCategory = await createCategoryService(req.body);
   res.json(
     successResponse(HttpStatus.CREATED, "Create Category Success", newCategory)
+  );
+};
+
+export const addCategoryTreeController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const categoryId = req.params.categoryId;
+  const { subCategories } = req.body;
+  const response = await addCategoryTree(categoryId, subCategories);
+  res.json(
+    successResponse(HttpStatus.OK, "Thêm danh mục thành công", response)
   );
 };
 
@@ -66,4 +80,14 @@ export const getCategoriesActiveController = async (
 ) => {
   const categories = await getCategoriesActive();
   res.json(successResponse(HttpStatus.OK, "Get Categories Active", categories));
+};
+
+export const getCategoriesFormatMenuController = async (
+  req: Request,
+  res: Response
+) => {
+  const response = await getCategoryFormatMenu();
+  res.json(
+    successResponse(HttpStatus.OK, "Get Categories Format Menu", response)
+  );
 };
