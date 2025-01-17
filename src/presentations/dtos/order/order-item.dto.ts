@@ -5,8 +5,8 @@ export class OrderItemDTO {
   @IsNotEmpty({ message: "Product Id is required" })
   productId!: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   variantId?: string;
 
   @IsNumber()
