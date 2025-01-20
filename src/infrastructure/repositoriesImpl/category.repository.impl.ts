@@ -36,6 +36,9 @@ export class CategoryRepositoryImpl implements ICategoryRepository {
   async getCategoriesActive(): Promise<ICategory[]> {
     return await Category.find({ isDeleted: false });
   }
+  async getCategoryById(categoryId: string): Promise<ICategory | null> {
+    return await Category.findById(categoryId);
+  }
   deleteCategory(categoryId: string): Promise<void> {
     throw new Error("Method not implemented.");
   }

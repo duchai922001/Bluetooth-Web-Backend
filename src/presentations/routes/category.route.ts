@@ -11,6 +11,7 @@ import {
   getAllCategoriesController,
   getCategoriesActiveController,
   getCategoriesFormatMenuController,
+  getCategoryByIdController,
   restoreCategoryController,
   updateCategoryController,
 } from "../controllers/category.controller";
@@ -59,11 +60,14 @@ categoryRoutes.put(
   transformAndValidate(UpdateIsDeleteCategoryDto),
   catchAsync(restoreCategoryController)
 );
-
 categoryRoutes.get("/get-all", catchAsync(getAllCategoriesController));
 categoryRoutes.get("/get-active", catchAsync(getCategoriesActiveController));
 categoryRoutes.get(
   "/get-format-menu",
   catchAsync(getCategoriesFormatMenuController)
+);
+categoryRoutes.get(
+  "/get-category/:categoryId",
+  catchAsync(getCategoryByIdController)
 );
 export default categoryRoutes;
