@@ -1,5 +1,5 @@
 import { IUserRepository } from "../../domain/repositories/user.repository";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import User, { IUser } from "../model/user.model";
 
 export class UserRepositoryImpl implements IUserRepository {
