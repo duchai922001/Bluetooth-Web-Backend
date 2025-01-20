@@ -173,3 +173,9 @@ export const getCategoryFormatMenu = async () => {
   }));
   return cleanFormattedCategories;
 };
+
+export const getCategoryById = async (
+  categoryId: string
+): Promise<ICategory | null> => {
+  return await categoryRepositry.findCategoryById(categoryId);
+};
