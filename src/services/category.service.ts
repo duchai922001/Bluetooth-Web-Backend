@@ -131,7 +131,9 @@ export const getAllCategoryService = async (): Promise<ICategory[]> => {
 export const getCategoriesActive = async (): Promise<ICategory[]> => {
   return await categoryRepositry.getCategoriesActive();
 };
-
+export const getCategoriesInActive = async (): Promise<ICategory[]> => {
+  return await categoryRepositry.getCategoriesInActive();
+};
 export const getCategoryFormatMenu = async () => {
   const categories = await categoryRepositry.getCategoriesActive();
   const categoryMap: Record<string, any> = {};

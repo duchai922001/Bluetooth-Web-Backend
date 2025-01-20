@@ -11,6 +11,7 @@ import {
   getAllCategoriesController,
   getCategoriesActiveController,
   getCategoriesFormatMenuController,
+  getCategoriesInActiveController,
   getCategoryByIdController,
   restoreCategoryController,
   updateCategoryController,
@@ -62,6 +63,10 @@ categoryRoutes.put(
 );
 categoryRoutes.get("/get-all", catchAsync(getAllCategoriesController));
 categoryRoutes.get("/get-active", catchAsync(getCategoriesActiveController));
+categoryRoutes.get(
+  "/get-in-active",
+  catchAsync(getCategoriesInActiveController)
+);
 categoryRoutes.get(
   "/get-format-menu",
   catchAsync(getCategoriesFormatMenuController)
