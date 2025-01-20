@@ -64,7 +64,7 @@ categoryRoutes.put(
 categoryRoutes.get("/get-all", catchAsync(getAllCategoriesController));
 categoryRoutes.get("/get-active", catchAsync(getCategoriesActiveController));
 categoryRoutes.get(
-  "/get-in-active",
+  "/get-inactive",
   catchAsync(getCategoriesInActiveController)
 );
 categoryRoutes.get(
