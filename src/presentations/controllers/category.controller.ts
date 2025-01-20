@@ -5,6 +5,7 @@ import {
   deleteCategoryService,
   getAllCategoryService,
   getCategoriesActive,
+  getCategoriesInActive,
   getCategoryById,
   getCategoryFormatMenu,
   restoreCategoryService,
@@ -82,7 +83,15 @@ export const getCategoriesActiveController = async (
   const categories = await getCategoriesActive();
   res.json(successResponse(HttpStatus.OK, "Get Categories Active", categories));
 };
-
+export const getCategoriesInActiveController = async (
+  req: Request,
+  res: Response
+) => {
+  const categories = await getCategoriesInActive();
+  res.json(
+    successResponse(HttpStatus.OK, "Get Categories In Active", categories)
+  );
+};
 export const getCategoriesFormatMenuController = async (
   req: Request,
   res: Response
