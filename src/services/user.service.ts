@@ -1,6 +1,6 @@
 import { IUser } from "../infrastructure/model/user.model";
 import { UserRepositoryImpl } from "../infrastructure/repositoriesImpl/user.repository.impl";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { RegisterUserDto } from "../presentations/dtos/user/register-user.dto";
 import { validateOrReject } from "class-validator";
 import { BadRequestException } from "../domain/exceptions/bad-request.exception";
