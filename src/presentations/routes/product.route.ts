@@ -12,6 +12,7 @@ import {
   getProductsController,
   updateProductController,
 } from "../controllers/product.controller";
+import { CreateProductDTO } from "../dtos/product/create-product.dto";
 
 const productRoutes = Router();
 
@@ -19,7 +20,7 @@ productRoutes.post(
   "/create",
   verifyToken,
   authorizeRoles(RoleEnum.ADMIN, RoleEnum.STAFF),
-  transformAndValidate(ProductDTO),
+  transformAndValidate(CreateProductDTO),
   catchAsync(createProductController)
 );
 

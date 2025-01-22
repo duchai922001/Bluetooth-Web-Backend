@@ -27,9 +27,9 @@ export const createSpecification = async (
   if (!product) {
     throw new NotFoundException("Product not found");
   }
-  product.specifications.push(
-    new mongoose.Types.ObjectId(specificationAdd._id as string)
-  );
+  // product.specifications.push(
+  //   new mongoose.Types.ObjectId(specificationAdd._id as string)
+  // );
   await product.save();
   return specificationAdd;
 };

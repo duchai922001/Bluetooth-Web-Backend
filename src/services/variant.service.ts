@@ -25,9 +25,9 @@ export const createVariantService = async (
     throw new NotFoundException("Product not found");
   }
 
-  findProductAddVariant.variants.push(
-    new mongoose.Types.ObjectId(variantAdd._id as string)
-  );
+  // findProductAddVariant.variants.push(
+  //   new mongoose.Types.ObjectId(variantAdd._id as string)
+  // );
   await findProductAddVariant.save();
   return variantAdd;
 };

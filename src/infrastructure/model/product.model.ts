@@ -1,16 +1,20 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { ProductStatus } from "../../domain/enums/product-status.enum";
 
+export interface Variant {
+  attributes: Record<string, string>;
+  price: number;
+  status?: ProductStatus;
+}
 export interface IProduct extends Document {
   name: string;
   categoryId: Schema.Types.ObjectId;
   brandId: Schema.Types.ObjectId;
   description: string;
-  basePrice: number;
-  variants: mongoose.Types.ObjectId[];
-  specifications: mongoose.Types.ObjectId[];
+  price?: number;
+  variants?: Variant[];
+  stock: number;
   status: ProductStatus;
-  countSold: number;
   isDeleted: boolean;
 }
 
@@ -27,18 +31,30 @@ const ProductSchema: Schema = new Schema<IProduct>(
       ref: "Brand",
       required: true,
     },
-    variants: [{ type: Schema.Types.ObjectId, ref: "ProductVariant" }],
-    specifications: [
-      { type: Schema.Types.ObjectId, ref: "ProductSpecification" },
-    ],
     description: { type: String, default: "" },
-    basePrice: { type: Number, required: true },
+    price: {
+      type: Number,
+      required: function () {
+        return !this.variants || this.variants.length === 0;
+      },
+    },
+    variants: [
+      {
+        attributes: { type: Map, of: String, required: true },
+        price: { type: Number, required: true },
+        status: {
+          type: String,
+          enum: Object.values(ProductStatus),
+          default: ProductStatus.AVAILABLE,
+        },
+      },
+    ],
+    stock: { type: Number, required: true },
     status: {
       type: String,
       enum: Object.values(ProductStatus),
       default: ProductStatus.AVAILABLE,
     },
-    countSold: { type: Number, default: 0 },
     isDeleted: { type: Boolean, default: false },
   },
   {

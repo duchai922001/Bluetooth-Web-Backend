@@ -5,6 +5,7 @@ import { IProductVariant } from "../infrastructure/model/productVariant.model";
 import { ProductRepositoryImpl } from "../infrastructure/repositoriesImpl/product.repository.impl";
 import { SpecificationRepositoryImpl } from "../infrastructure/repositoriesImpl/specification.repository.impl";
 import { VariantRepositoryImpl } from "../infrastructure/repositoriesImpl/variant.repository.impl";
+import { CreateProductDTO } from "../presentations/dtos/product/create-product.dto";
 import { ProductDTO } from "../presentations/dtos/product/product.dto";
 import { createAndValidateDto } from "../utils/createAndValidateDto.util";
 const productRepository = new ProductRepositoryImpl();
@@ -39,7 +40,10 @@ async function getVariants(productId: string): Promise<IProductVariant[]> {
 }
 
 export const createProductService = async (product: Partial<IProduct>) => {
-  const createProductDto = await createAndValidateDto(ProductDTO, product);
+  const createProductDto = await createAndValidateDto(
+    CreateProductDTO,
+    product
+  );
   return await productRepository.createProduct(createProductDto);
 };
 

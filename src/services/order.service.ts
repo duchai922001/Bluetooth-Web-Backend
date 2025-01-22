@@ -36,7 +36,7 @@ export const createOrderService = async (userId: string, orders: IOrder[]) => {
 
         let totalPrice = 0;
         if (findProduct) {
-          totalPrice = findProduct.basePrice * createOrderDTO.quantity;
+          // totalPrice = findProduct.basePrice * createOrderDTO.quantity;
           if (findVariantOfProduct) {
             totalPrice += findVariantOfProduct.price * createOrderDTO.quantity;
           }
@@ -101,7 +101,7 @@ export const doneOrderService = async (orderId: string) => {
   if (!product) {
     throw new BadRequestException(`Sản phẩm không tồn tại.`);
   }
-  product.countSold = (product.countSold || 0) + order.quantity;
+  // product.countSold = (product.countSold || 0) + order.quantity;
   await product.save();
 
   await Promise.all([

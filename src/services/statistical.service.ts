@@ -35,7 +35,7 @@ export const getOrdersShop = async (): Promise<IOrderAnalytics> => {
 
 export const getTopSellingProducts = async () => {
   const products = await productRepository.getProducts();
-  const topSellingProducts = products.sort((a, b) => b.countSold - a.countSold);
-  const result = topSellingProducts.slice(0, 5);
-  return result;
+  // const topSellingProducts = products.sort((a, b) => b.countSold - a.countSold);
+  // const result = topSellingProducts.slice(0, 5);
+  return products;
 };
