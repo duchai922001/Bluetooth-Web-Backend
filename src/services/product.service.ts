@@ -50,31 +50,7 @@ export const createProductService = async (product: Partial<IProduct>) => {
 export const getProductsService = async () => {
   const products = await productRepository.getProducts();
 
-  const productAddAttribute = await Promise.all(
-    products.map(async (product) => {
-      try {
-        const specifications = await getSpecifications(product._id as string);
-        const variants = await getVariants(product._id as string);
-        return {
-          ...product.toObject(),
-          specifications: specifications,
-          variants: variants,
-        };
-      } catch (error) {
-        console.error(
-          `Error fetching specifications for product ${product._id}:`,
-          error
-        );
-        return {
-          ...product.toObject(),
-          specifications: null,
-          variants: null,
-        };
-      }
-    })
-  );
-
-  return productAddAttribute;
+  return products;
 };
 
 export const updateProductService = async (formData: Partial<IProduct>) => {
