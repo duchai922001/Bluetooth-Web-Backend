@@ -9,10 +9,12 @@ import {
   createProductController,
   deleteProductController,
   deleteSoftProductController,
+  getProductsActiveController,
   getProductsController,
   updateProductController,
 } from "../controllers/product.controller";
 import { CreateProductDTO } from "../dtos/product/create-product.dto";
+import { UpdateProductDTO } from "../dtos/product/update-product.dto";
 
 const productRoutes = Router();
 
@@ -25,11 +27,12 @@ productRoutes.post(
 );
 
 productRoutes.get("/get-all", catchAsync(getProductsController));
+productRoutes.get("/get-active", catchAsync(getProductsActiveController));
 productRoutes.put(
-  "/update",
+  "/update/:productId",
   verifyToken,
   authorizeRoles(RoleEnum.ADMIN, RoleEnum.STAFF),
-  transformAndValidate(ProductDTO),
+  transformAndValidate(UpdateProductDTO),
   catchAsync(updateProductController)
 );
 

@@ -7,6 +7,7 @@ import { SpecificationRepositoryImpl } from "../infrastructure/repositoriesImpl/
 import { VariantRepositoryImpl } from "../infrastructure/repositoriesImpl/variant.repository.impl";
 import { CreateProductDTO } from "../presentations/dtos/product/create-product.dto";
 import { ProductDTO } from "../presentations/dtos/product/product.dto";
+import { UpdateProductDTO } from "../presentations/dtos/product/update-product.dto";
 import { createAndValidateDto } from "../utils/createAndValidateDto.util";
 const productRepository = new ProductRepositoryImpl();
 const specificationRepository = new SpecificationRepositoryImpl();
@@ -52,10 +53,19 @@ export const getProductsService = async () => {
 
   return products;
 };
+export const getProductsActiveService = async () => {
+  const products = await productRepository.getProductsActive();
 
-export const updateProductService = async (formData: Partial<IProduct>) => {
-  const updateProductDTO = await createAndValidateDto(ProductDTO, formData);
-  const productId = updateProductDTO.productId;
+  return products;
+};
+export const updateProductService = async (
+  productId: string,
+  formData: Partial<IProduct>
+) => {
+  const updateProductDTO = await createAndValidateDto(
+    UpdateProductDTO,
+    formData
+  );
   if (!productId) {
     throw new BadRequestException("Product Id is required");
   }

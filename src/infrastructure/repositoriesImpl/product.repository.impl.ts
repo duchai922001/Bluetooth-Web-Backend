@@ -27,6 +27,10 @@ export class ProductRepositoryImpl implements IProductRepository {
   async getProducts(): Promise<IProduct[]> {
     return await Product.find();
   }
+
+  async getProductsActive(): Promise<IProduct[]> {
+    return await Product.find({ isDeleted: false });
+  }
   async createProduct(product: IProduct): Promise<IProduct> {
     return await Product.create(product);
   }

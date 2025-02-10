@@ -8,6 +8,7 @@ export interface IProductRepository {
     formData: IProduct
   ): Promise<IProduct | null>;
   deleteProduct(productId: string): Promise<boolean>;
+  getProductsActive(): Promise<IProduct[]>;
   findProductById(productId: string): Promise<IProduct | null>;
   findProductByBrand(brandId: string): Promise<IProduct[]>;
   findProductByCategory(categoryId: string): Promise<IProduct[]>;

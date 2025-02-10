@@ -3,6 +3,7 @@ import {
   createProductService,
   deleteProductService,
   deleteSoftProductService,
+  getProductsActiveService,
   getProductsService,
   updateProductService,
 } from "../../services/product.service";
@@ -26,9 +27,19 @@ export const getProductsController = async (req: Request, res: Response) => {
     successResponse(HttpStatus.OK, "Get Products Successfully", products)
   );
 };
+export const getProductsActiveController = async (
+  req: Request,
+  res: Response
+) => {
+  const products = await getProductsActiveService();
+  res.json(
+    successResponse(HttpStatus.OK, "Get Products Successfully", products)
+  );
+};
 
 export const updateProductController = async (req: Request, res: Response) => {
-  const product = await updateProductService(req.body);
+  const productId = req.params.productId;
+  const product = await updateProductService(productId, req.body);
   res.json(
     successResponse(HttpStatus.OK, "Update Product Successfully", product)
   );
