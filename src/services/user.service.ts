@@ -17,14 +17,14 @@ export const register = async (userData: Partial<IUser>): Promise<IUser> => {
     registerUserDto.username
   );
   if (existedUser) {
-    throw new BadRequestException("Username already exists");
+    throw new BadRequestException("Tài khoản đã tồn tại");
   }
 
   const existedEmail = await userRepository.findUserByEmail(
     registerUserDto.email || ""
   );
   if (existedEmail) {
-    throw new BadRequestException("Email already exists");
+    throw new BadRequestException("Email đã tồn tại");
   }
 
   const hashedPassword = await bcrypt.hash(registerUserDto.password, 10);
@@ -47,14 +47,14 @@ export const loginService = async (
   await validateOrReject(loginUserDto);
   const user = await userRepository.findUserByUsername(loginUserDto.username);
   if (!user) {
-    throw new BadRequestException("Invalid username or password 1");
+    throw new BadRequestException("Tài khoản hoặc mật khẩu không đúng");
   }
   const isMatchPassword = await userRepository.checkPassword(
     user,
     loginUserDto.password
   );
   if (!isMatchPassword) {
-    throw new BadRequestException("Invalid username or password");
+    throw new BadRequestException("Tài khoản hoặc mật khẩu không đúng");
   }
   if (!process.env.JWT_SECRET) {
     throw new Error("JWT_SECRET is not set in environment variables");

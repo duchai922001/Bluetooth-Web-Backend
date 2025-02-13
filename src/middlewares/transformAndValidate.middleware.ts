@@ -25,17 +25,6 @@ export const transformAndValidate =
     }
   };
 
-function formatValidationErrors(errors: ValidationError[]): any[] {
-  return errors.map((err) => {
-    if (err.children && err.children.length > 0) {
-      return {
-        property: err.property,
-        errors: formatValidationErrors(err.children),
-      };
-    }
-    return {
-      property: err.property,
-      constraints: err.constraints,
-    };
-  });
+function formatValidationErrors(errors: ValidationError[]): string[] {
+  return errors.flatMap((error) => Object.values(error.constraints || {}));
 }

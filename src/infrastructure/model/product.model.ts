@@ -5,6 +5,7 @@ export interface Variant {
   attributes: Record<string, string>;
   price: number;
   status?: ProductStatus;
+  images: string[];
 }
 export interface IProduct extends Document {
   name: string;
@@ -16,6 +17,8 @@ export interface IProduct extends Document {
   stock: number;
   status: ProductStatus;
   isDeleted: boolean;
+  imageThumbnailUrl: string;
+  imageUrls: string[];
 }
 
 const ProductSchema: Schema = new Schema<IProduct>(
@@ -47,6 +50,7 @@ const ProductSchema: Schema = new Schema<IProduct>(
           enum: Object.values(ProductStatus),
           default: ProductStatus.AVAILABLE,
         },
+        images: { type: [String] },
       },
     ],
     stock: { type: Number, required: true },
@@ -55,6 +59,8 @@ const ProductSchema: Schema = new Schema<IProduct>(
       enum: Object.values(ProductStatus),
       default: ProductStatus.AVAILABLE,
     },
+    imageThumbnailUrl: { type: String, required: true },
+    imageUrls: { type: [String] },
     isDeleted: { type: Boolean, default: false },
   },
   {
