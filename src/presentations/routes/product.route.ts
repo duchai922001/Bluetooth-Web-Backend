@@ -12,6 +12,7 @@ import {
   getFilteredProductsController,
   getProductsActiveController,
   getProductsController,
+  getProductSpecial,
   updateProductController,
 } from "../controllers/product.controller";
 import { CreateProductDTO } from "../dtos/product/create-product.dto";
@@ -57,4 +58,6 @@ productRoutes.post(
   transformAndValidate(FilterProductDto),
   catchAsync(getFilteredProductsController)
 );
+
+productRoutes.get("/get-product-special", catchAsync(getProductSpecial));
 export default productRoutes;

@@ -74,3 +74,5 @@ export const getFilteredProductsController = async (
     )
   );
 };
+
+export const getProductSpecial = async (req: Request, res: Response) => {};
