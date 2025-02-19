@@ -6,6 +6,7 @@ import { ProductRepositoryImpl } from "../infrastructure/repositoriesImpl/produc
 import { SpecificationRepositoryImpl } from "../infrastructure/repositoriesImpl/specification.repository.impl";
 import { VariantRepositoryImpl } from "../infrastructure/repositoriesImpl/variant.repository.impl";
 import { CreateProductDTO } from "../presentations/dtos/product/create-product.dto";
+import { FilterProductDto } from "../presentations/dtos/product/filter-product.dto";
 import { ProductDTO } from "../presentations/dtos/product/product.dto";
 import { UpdateProductDTO } from "../presentations/dtos/product/update-product.dto";
 import { createAndValidateDto } from "../utils/createAndValidateDto.util";
@@ -92,4 +93,35 @@ export const deleteProductService = async (ids: string) => {
       await productRepository.deleteProduct(id);
     })
   );
+};
+
+export const getFilterProductService = async (formFilter: any) => {
+  const formFilterData = await createAndValidateDto(
+    FilterProductDto,
+    formFilter
+  );
+  //get products by brandId and categoryId
+  //Nếu không có brandID hoặc categoryID thì trả về tất cả
+  if (!formFilterData?.brandId && !formFilterData?.categoryId) {
+    const products = await productRepository.getProducts();
+    return products;
+  }
+  //Nếu có 1 trong hai brandId và categoryId thì lọc ra các sản phẩm thỏa mãn
+  if (formFilterData?.brandId && !formFilterData?.categoryId) {
+    const products = await productRepository.findProductByBrand(
+      formFilterData.brandId
+    );
+    return products;
+  }
+  if (!formFilterData?.brandId && formFilterData?.categoryId) {
+    const products = await productRepository.findProductByCategory(
+      formFilterData.categoryId
+    );
+    return products;
+  }
+  const products = await productRepository.findProductByBrandAndCategory(
+    formFilterData.brandId,
+    formFilterData.categoryId
+  );
+  return products;
 };

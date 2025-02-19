@@ -2,6 +2,12 @@ import { IProductRepository } from "../../domain/repositories/product.repository
 import Product, { IProduct } from "../model/product.model";
 
 export class ProductRepositoryImpl implements IProductRepository {
+  async findProductByBrandAndCategory(
+    brandId: string,
+    categoryId: string
+  ): Promise<IProduct[]> {
+    return await Product.find({ brandId, categoryId });
+  }
   async findProductByCategory(categoryId: string): Promise<IProduct[]> {
     return await Product.find({ categoryId });
   }

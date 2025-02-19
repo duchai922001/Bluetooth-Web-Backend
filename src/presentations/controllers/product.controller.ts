@@ -3,6 +3,7 @@ import {
   createProductService,
   deleteProductService,
   deleteSoftProductService,
+  getFilterProductService,
   getProductsActiveService,
   getProductsService,
   updateProductService,
@@ -58,4 +59,18 @@ export const deleteProductController = async (req: Request, res: Response) => {
   const ids = req.query.ids as string;
   await deleteProductService(ids);
   res.json(successResponse(HttpStatus.OK, "Delete Product Successfully"));
+};
+
+export const getFilteredProductsController = async (
+  req: Request,
+  res: Response
+) => {
+  const productsFilter = await getFilterProductService(req.body);
+  return res.json(
+    successResponse(
+      HttpStatus.OK,
+      "Get Filtered Products Successfully",
+      productsFilter
+    )
+  );
 };

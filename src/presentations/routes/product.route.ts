@@ -9,12 +9,14 @@ import {
   createProductController,
   deleteProductController,
   deleteSoftProductController,
+  getFilteredProductsController,
   getProductsActiveController,
   getProductsController,
   updateProductController,
 } from "../controllers/product.controller";
 import { CreateProductDTO } from "../dtos/product/create-product.dto";
 import { UpdateProductDTO } from "../dtos/product/update-product.dto";
+import { FilterProductDto } from "../dtos/product/filter-product.dto";
 
 const productRoutes = Router();
 
@@ -48,5 +50,11 @@ productRoutes.delete(
   verifyToken,
   authorizeRoles(RoleEnum.ADMIN, RoleEnum.STAFF),
   catchAsync(deleteProductController)
+);
+
+productRoutes.post(
+  "/get-filter",
+  transformAndValidate(FilterProductDto),
+  catchAsync(getFilteredProductsController)
 );
 export default productRoutes;
