@@ -2,6 +2,7 @@ import { BadRequestException } from "../domain/exceptions/bad-request.exception"
 import { IProduct } from "../infrastructure/model/product.model";
 import { IProductSpecification } from "../infrastructure/model/productSpecification.model";
 import { IProductVariant } from "../infrastructure/model/productVariant.model";
+import { BrandRepositoryImpl } from "../infrastructure/repositoriesImpl/brand.repository.impl";
 import { ProductRepositoryImpl } from "../infrastructure/repositoriesImpl/product.repository.impl";
 import { SpecificationRepositoryImpl } from "../infrastructure/repositoriesImpl/specification.repository.impl";
 import { VariantRepositoryImpl } from "../infrastructure/repositoriesImpl/variant.repository.impl";
@@ -13,6 +14,7 @@ import { createAndValidateDto } from "../utils/createAndValidateDto.util";
 const productRepository = new ProductRepositoryImpl();
 const specificationRepository = new SpecificationRepositoryImpl();
 const variantRepository = new VariantRepositoryImpl();
+const brandRepository = new BrandRepositoryImpl();
 async function getSpecifications(
   productId: string
 ): Promise<IProductSpecification[]> {
@@ -124,4 +126,9 @@ export const getFilterProductService = async (formFilter: any) => {
     formFilterData.categoryId
   );
   return products;
+};
+
+export const getProductSpecial = async () => {
+  const getBrands = await brandRepository.getAllBrands();
+  const getProducts = await productRepository.getProducts();
 };
