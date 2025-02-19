@@ -25,9 +25,9 @@ export class VariantDTO {
   @IsOptional()
   status?: ProductStatus;
 
-  @IsOptional()
-  @IsArray()
-  images?: string[];
+  @IsNumber()
+  @IsNotEmpty({ message: "Kho hàng bắt buộc" })
+  stock!: number;
 }
 
 export class CreateProductDTO {

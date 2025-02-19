@@ -81,10 +81,17 @@ export const deleteSoftProductService = async (ids: string) => {
   const idArray = ids.split(",").map((id) => id.trim());
   await Promise.all(
     idArray.map(async (id) => {
-      await productRepository.updateProduct(id, { isDeleted: true });
+      const product = await productRepository.findProductById(id);
+      if(product?.isDeleted) {
+
+        await productRepository.updateProduct(id, { isDeleted: false });
+      } else {
+        await productRepository.updateProduct(id, { isDeleted: true });
+      }
     })
   );
 };
+
 
 export const deleteProductService = async (ids: string) => {
   const idArray = ids.split(",").map((id) => id.trim());

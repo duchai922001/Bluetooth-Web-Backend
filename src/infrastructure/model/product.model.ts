@@ -5,7 +5,7 @@ export interface Variant {
   attributes: Record<string, string>;
   price: number;
   status?: ProductStatus;
-  images: string[];
+  stock: number,
 }
 export interface IProduct extends Document {
   name: string;
@@ -50,7 +50,8 @@ const ProductSchema: Schema = new Schema<IProduct>(
           enum: Object.values(ProductStatus),
           default: ProductStatus.AVAILABLE,
         },
-        images: { type: [String] },
+  stock: {type: Number, required: true},
+
       },
     ],
     stock: { type: Number, required: true },
