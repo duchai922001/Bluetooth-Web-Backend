@@ -3,6 +3,7 @@ import { IProduct } from "../infrastructure/model/product.model";
 import { IProductSpecification } from "../infrastructure/model/productSpecification.model";
 import { IProductVariant } from "../infrastructure/model/productVariant.model";
 import { BrandRepositoryImpl } from "../infrastructure/repositoriesImpl/brand.repository.impl";
+import { CategoryRepositoryImpl } from "../infrastructure/repositoriesImpl/category.repository.impl";
 import { ProductRepositoryImpl } from "../infrastructure/repositoriesImpl/product.repository.impl";
 import { SpecificationRepositoryImpl } from "../infrastructure/repositoriesImpl/specification.repository.impl";
 import { VariantRepositoryImpl } from "../infrastructure/repositoriesImpl/variant.repository.impl";
@@ -15,6 +16,7 @@ const productRepository = new ProductRepositoryImpl();
 const specificationRepository = new SpecificationRepositoryImpl();
 const variantRepository = new VariantRepositoryImpl();
 const brandRepository = new BrandRepositoryImpl();
+const categoryRepository = new CategoryRepositoryImpl();
 async function getSpecifications(
   productId: string
 ): Promise<IProductSpecification[]> {
@@ -83,7 +85,12 @@ export const deleteSoftProductService = async (ids: string) => {
   const idArray = ids.split(",").map((id) => id.trim());
   await Promise.all(
     idArray.map(async (id) => {
-      await productRepository.updateProduct(id, { isDeleted: true });
+      const product = await productRepository.findProductById(id);
+      if (product?.isDeleted) {
+        await productRepository.updateProduct(id, { isDeleted: false });
+      } else {
+        await productRepository.updateProduct(id, { isDeleted: true });
+      }
     })
   );
 };
@@ -128,7 +135,21 @@ export const getFilterProductService = async (formFilter: any) => {
   return products;
 };
 
-export const getProductSpecial = async () => {
-  const getBrands = await brandRepository.getAllBrands();
+export const getProductSpecialService = async () => {
+  const getBrands = await brandRepository.getBrandsActive();
   const getProducts = await productRepository.getProducts();
+  const getCategories = await categoryRepository.getCategoriesActive();
+  const result = getCategories.map((category) => {
+    return {
+      categoryId: category.id,
+      categoryName: category.name,
+      brands: getBrands.filter((brand) =>
+        brand.categoryIds.includes(category.id)
+      ),
+      products: getProducts.filter(
+        (product) => product.categoryId === category.id
+      ),
+    };
+  });
+  return result;
 };

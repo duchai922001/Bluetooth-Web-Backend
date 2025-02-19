@@ -5,6 +5,7 @@ import {
   deleteSoftProductService,
   getFilterProductService,
   getProductsActiveService,
+  getProductSpecialService,
   getProductsService,
   updateProductService,
 } from "../../services/product.service";
@@ -75,4 +76,13 @@ export const getFilteredProductsController = async (
   );
 };
 
-export const getProductSpecial = async (req: Request, res: Response) => {};
+export const getProductSpecial = async (req: Request, res: Response) => {
+  const productSpecial = await getProductSpecialService();
+  return res.json(
+    successResponse(
+      HttpStatus.OK,
+      "Get Product Special Successfully",
+      productSpecial
+    )
+  );
+};
