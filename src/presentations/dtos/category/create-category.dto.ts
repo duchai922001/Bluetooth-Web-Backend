@@ -9,10 +9,14 @@ import {
 
 export class CreateCategoryDto {
   @IsString()
-  @IsNotEmpty({ message: "category name is required" })
+  @IsNotEmpty({ message: "Tên danh mục không được để trống" })
   name!: string;
 
   @IsString()
-  @IsNotEmpty({ message: "url is required" })
+  @IsNotEmpty({ message: "url không được để trống" })
   url!: string;
+
+  @IsString()
+  @IsOptional()
+  imageLogo!: string;
 }

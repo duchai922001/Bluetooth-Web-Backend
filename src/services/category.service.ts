@@ -167,6 +167,7 @@ export const getCategoryFormatMenu = async () => {
   const cleanFormattedCategories = formattedCategories.map((category) => ({
     name: category.name,
     url: category.url,
+    imageLogo: category.imageLogo,
     subCategories: category.subCategories.map((subCategory: any) => ({
       name: subCategory.name,
       url: subCategory.url,
