@@ -10,6 +10,7 @@ import {
   deleteProductController,
   deleteSoftProductController,
   getFilteredProductsController,
+  getProductByIdController,
   getProductsActiveController,
   getProductsController,
   getProductSpecial,
@@ -58,6 +59,8 @@ productRoutes.post(
   transformAndValidate(FilterProductDto),
   catchAsync(getFilteredProductsController)
 );
+
+productRoutes.get("/get-product-id/:productId", catchAsync(getProductByIdController));
 
 productRoutes.get("/get-product-special", catchAsync(getProductSpecial));
 export default productRoutes;

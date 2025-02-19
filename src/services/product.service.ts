@@ -3,6 +3,7 @@ import { IProduct } from "../infrastructure/model/product.model";
 import { IProductSpecification } from "../infrastructure/model/productSpecification.model";
 import { IProductVariant } from "../infrastructure/model/productVariant.model";
 import { BrandRepositoryImpl } from "../infrastructure/repositoriesImpl/brand.repository.impl";
+import { CategoryRepositoryImpl } from "../infrastructure/repositoriesImpl/category.repository.impl";
 import { ProductRepositoryImpl } from "../infrastructure/repositoriesImpl/product.repository.impl";
 import { SpecificationRepositoryImpl } from "../infrastructure/repositoriesImpl/specification.repository.impl";
 import { VariantRepositoryImpl } from "../infrastructure/repositoriesImpl/variant.repository.impl";
@@ -15,6 +16,7 @@ const productRepository = new ProductRepositoryImpl();
 const specificationRepository = new SpecificationRepositoryImpl();
 const variantRepository = new VariantRepositoryImpl();
 const brandRepository = new BrandRepositoryImpl();
+const categoryRepository = new CategoryRepositoryImpl();
 async function getSpecifications(
   productId: string
 ): Promise<IProductSpecification[]> {
@@ -56,6 +58,12 @@ export const getProductsService = async () => {
 
   return products;
 };
+
+export const getProductByIdService = async (productId: string) => {
+  const product = await productRepository.findProductById(productId);
+
+  return product;
+};
 export const getProductsActiveService = async () => {
   const products = await productRepository.getProductsActive();
 
@@ -84,8 +92,7 @@ export const deleteSoftProductService = async (ids: string) => {
   await Promise.all(
     idArray.map(async (id) => {
       const product = await productRepository.findProductById(id);
-      if(product?.isDeleted) {
-
+      if (product?.isDeleted) {
         await productRepository.updateProduct(id, { isDeleted: false });
       } else {
         await productRepository.updateProduct(id, { isDeleted: true });
@@ -135,7 +142,33 @@ export const getFilterProductService = async (formFilter: any) => {
   return products;
 };
 
-export const getProductSpecial = async () => {
-  const getBrands = await brandRepository.getAllBrands();
-  const getProducts = await productRepository.getProducts();
+export const getProductSpecialService = async () => {
+  const getBrands = await brandRepository.getBrandsActive();
+  const getProducts = await productRepository.getProductsActive();
+  const getCategories = await categoryRepository.getCategoriesActive();
+  console.log({getProducts})
+  const result = getCategories.map((category) => {
+    return {
+      categoryId: category.id,
+      categoryName: category.name,
+      brands: getBrands.filter((brand) =>
+        brand.categoryIds.includes(category.id)
+      ).map((item) => {
+        return {
+          _id: item._id,
+          name: item.name,
+        }
+      }),
+      products: getProducts.filter(
+        (product) => String(product.categoryId) === String(category._id)
+      ).map((item) => {return {
+        _id: item._id,
+        name: item.name,
+        price: item.variants?.length ? item.variants?.[0].price : item.price,
+        imageThumbnailUrl: item.imageThumbnailUrl,
+
+      }}),
+    };
+  });
+  return result;
 };
