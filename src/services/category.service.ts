@@ -165,6 +165,7 @@ export const getCategoryFormatMenu = async () => {
     }));
   };
   const cleanFormattedCategories = formattedCategories.map((category) => ({
+    order: category.order,
     name: category.name,
     url: category.url,
     imageLogo: category.imageLogo,
@@ -174,7 +175,7 @@ export const getCategoryFormatMenu = async () => {
       subCategories: mappingSubMenu(subCategory.subCategories), // Nếu có sub-categories thì giữ lại
     })),
   }));
-  return cleanFormattedCategories;
+  return cleanFormattedCategories.sort((a,b) => a.order-b.order);
 };
 
 export const getCategoryById = async (
@@ -182,3 +183,22 @@ export const getCategoryById = async (
 ): Promise<ICategory | null> => {
   return await categoryRepositry.findCategoryById(categoryId);
 };
+
+export const updateOrderCategoryService = async (categoryUrl: string, order: number) => {
+  
+  const categories = await categoryRepositry.getCategoriesActive()
+  const categoryUpdate = await categoryRepositry.getCategoryByUrl(categoryUrl)
+  if(!categoryUpdate) {
+    throw new NotFoundException("Không tìm thấy category")
+  }
+  categoryUpdate.order = order
+  const categoryFilter = categories.filter((item) => item.url !== categoryUrl)
+  categoryFilter.sort((a, b) => a.order - b.order);
+  const updatePromises =  categoryFilter.map((item, index) => {
+    item.order = order + index + 1; 
+    return categoryRepositry.updateCategory(String(item._id), item);
+  });
+  await Promise.all(updatePromises);
+
+  await categoryRepositry.updateCategory(String(categoryUpdate._id),categoryUpdate);
+}

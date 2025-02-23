@@ -10,6 +10,7 @@ import {
   getCategoryFormatMenu,
   restoreCategoryService,
   updateCategoryService,
+  updateOrderCategoryService,
 } from "../../services/category.service";
 import { HttpStatus } from "../../domain/enums/http-status.enum";
 import { successResponse } from "../../utils/response-success.util";
@@ -110,3 +111,10 @@ export const getCategoryByIdController = async (
   const response = await getCategoryById(categoryId);
   res.json(successResponse(HttpStatus.OK, "Get Categories", response));
 };
+
+export const updateOrderCategory = async (req: Request, res: Response) => {
+  const {categoryUrl} = req.params
+  const {order} = req.body
+  await updateOrderCategoryService(categoryUrl, order)
+  res.json(successResponse(HttpStatus.OK, "Update success"))
+}

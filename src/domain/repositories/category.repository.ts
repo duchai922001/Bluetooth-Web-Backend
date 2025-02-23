@@ -16,4 +16,7 @@ export interface ICategoryRepository {
   getCategoriesActive(): Promise<ICategory[]>;
   getCategoriesInActive(): Promise<ICategory[]>;
   getCategoryById(categoryId: string): Promise<ICategory | null>;
+  getCategoryByUrl(url: string): Promise<ICategory | null>
+  updateCategoriesOrder (categoryFilter: ICategory[], updateData: Partial<ICategory>): Promise<ICategory[]>
+  updateCategoryOrder(categoryUpdate: ICategory): Promise<ICategory | null>
 }

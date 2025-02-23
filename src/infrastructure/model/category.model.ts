@@ -7,6 +7,7 @@ export interface ICategory extends Document {
   isDeleted: boolean;
   subCategories: string[];
   parentId: string | null;
+  order: number;
 }
 
 const CategorySchema: Schema = new Schema<ICategory>(
@@ -17,6 +18,7 @@ const CategorySchema: Schema = new Schema<ICategory>(
     isDeleted: { type: Boolean, default: false },
     subCategories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
     parentId: { type: Schema.Types.ObjectId, ref: "Category", default: null },
+    order: {type: Number, default: 1}
   },
   {
     timestamps: true,

@@ -51,6 +51,10 @@ export class CreateProductDTO {
   @IsString()
   @IsOptional()
   description?: string;
+  
+  @IsString()
+  @IsOptional()
+  infoProduct?: string;
 
   @IsNumber()
   @IsNotEmpty({ message: "Kho hàng bắt buộc" })

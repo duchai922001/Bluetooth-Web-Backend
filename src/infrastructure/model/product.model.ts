@@ -19,6 +19,7 @@ export interface IProduct extends Document {
   isDeleted: boolean;
   imageThumbnailUrl: string;
   imageUrls: string[];
+  infoProduct: string
 }
 
 const ProductSchema: Schema = new Schema<IProduct>(
@@ -35,6 +36,7 @@ const ProductSchema: Schema = new Schema<IProduct>(
       required: true,
     },
     description: { type: String, default: "" },
+    infoProduct: { type: String, default: "" },
     price: {
       type: Number,
       required: function () {

@@ -2,6 +2,7 @@ import { Type } from "class-transformer";
 import {
   IsArray,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
@@ -19,4 +20,8 @@ export class CreateCategoryDto {
   @IsString()
   @IsOptional()
   imageLogo!: string;
+
+  @IsNumber()
+  @IsNotEmpty({message: "Order không được để trống"})
+  order?: number
 }
