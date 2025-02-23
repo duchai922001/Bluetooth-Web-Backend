@@ -61,8 +61,16 @@ export const getProductsService = async () => {
 
 export const getProductByIdService = async (productId: string) => {
   const product = await productRepository.findProductById(productId);
-
-  return product;
+  const brand = await brandRepository.getBrandById(String(product?.brandId));
+  const category = await categoryRepository.getCategoryById(
+    String(product?.categoryId)
+  );
+  const result = {
+    ...product,
+    brand,
+    category,
+  };
+  return result;
 };
 export const getProductsActiveService = async () => {
   const products = await productRepository.getProductsActive();
@@ -100,7 +108,6 @@ export const deleteSoftProductService = async (ids: string) => {
     })
   );
 };
-
 
 export const deleteProductService = async (ids: string) => {
   const idArray = ids.split(",").map((id) => id.trim());
@@ -146,28 +153,33 @@ export const getProductSpecialService = async () => {
   const getBrands = await brandRepository.getBrandsActive();
   const getProducts = await productRepository.getProductsActive();
   const getCategories = await categoryRepository.getCategoriesActive();
-  console.log({getProducts})
+  console.log({ getProducts });
   const result = getCategories.map((category) => {
     return {
       categoryId: category.id,
       categoryName: category.name,
-      brands: getBrands.filter((brand) =>
-        brand.categoryIds.includes(category.id)
-      ).map((item) => {
-        return {
-          _id: item._id,
-          name: item.name,
-        }
-      }),
-      products: getProducts.filter(
-        (product) => String(product.categoryId) === String(category._id)
-      ).map((item) => {return {
-        _id: item._id,
-        name: item.name,
-        price: item.variants?.length ? item.variants?.[0].price : item.price,
-        imageThumbnailUrl: item.imageThumbnailUrl,
-
-      }}),
+      brands: getBrands
+        .filter((brand) => brand.categoryIds.includes(category.id))
+        .map((item) => {
+          return {
+            _id: item._id,
+            name: item.name,
+          };
+        }),
+      products: getProducts
+        .filter(
+          (product) => String(product.categoryId) === String(category._id)
+        )
+        .map((item) => {
+          return {
+            _id: item._id,
+            name: item.name,
+            price: item.variants?.length
+              ? item.variants?.[0].price
+              : item.price,
+            imageThumbnailUrl: item.imageThumbnailUrl,
+          };
+        }),
     };
   });
   return result;

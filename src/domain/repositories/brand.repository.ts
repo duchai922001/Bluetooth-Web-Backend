@@ -9,4 +9,5 @@ export interface IBrandRepository {
   ): Promise<IBrand | null>;
   getAllBrands(): Promise<IBrand[]>;
   getBrandsActive(): Promise<IBrand[]>;
+  getBrandById(brandId: string): Promise<IBrand | null>;
 }

@@ -3,6 +3,9 @@ import Brand, { IBrand } from "../model/brand.model";
 import { ProductRepositoryImpl } from "./product.repository.impl";
 const productRepository = new ProductRepositoryImpl();
 export class BrandRepositoryImpl implements IBrandRepository {
+  async getBrandById(brandId: string): Promise<IBrand | null> {
+    return await Brand.findById(brandId);
+  }
   async updateIsDeleted(
     brandId: string,
     isDeleted: boolean
