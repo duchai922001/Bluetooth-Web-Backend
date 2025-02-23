@@ -66,7 +66,7 @@ export const getProductByIdService = async (productId: string) => {
     String(product?.categoryId)
   );
   const result = {
-    ...product,
+    product,
     brand,
     category,
   };
