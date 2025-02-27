@@ -165,17 +165,19 @@ export const getCategoryFormatMenu = async () => {
     }));
   };
   const cleanFormattedCategories = formattedCategories.map((category) => ({
+    categoryId: category._id,
     order: category.order,
     name: category.name,
     url: category.url,
     imageLogo: category.imageLogo,
     subCategories: category.subCategories.map((subCategory: any) => ({
+      subCategoryId: subCategory._id,
       name: subCategory.name,
       url: subCategory.url,
       subCategories: mappingSubMenu(subCategory.subCategories), // Nếu có sub-categories thì giữ lại
     })),
   }));
-  return cleanFormattedCategories.sort((a,b) => a.order-b.order);
+  return cleanFormattedCategories.sort((a, b) => a.order - b.order);
 };
 
 export const getCategoryById = async (
@@ -184,21 +186,26 @@ export const getCategoryById = async (
   return await categoryRepositry.findCategoryById(categoryId);
 };
 
-export const updateOrderCategoryService = async (categoryUrl: string, order: number) => {
-  
-  const categories = await categoryRepositry.getCategoriesActive()
-  const categoryUpdate = await categoryRepositry.getCategoryByUrl(categoryUrl)
-  if(!categoryUpdate) {
-    throw new NotFoundException("Không tìm thấy category")
+export const updateOrderCategoryService = async (
+  categoryUrl: string,
+  order: number
+) => {
+  const categories = await categoryRepositry.getCategoriesActive();
+  const categoryUpdate = await categoryRepositry.getCategoryByUrl(categoryUrl);
+  if (!categoryUpdate) {
+    throw new NotFoundException("Không tìm thấy category");
   }
-  categoryUpdate.order = order
-  const categoryFilter = categories.filter((item) => item.url !== categoryUrl)
+  categoryUpdate.order = order;
+  const categoryFilter = categories.filter((item) => item.url !== categoryUrl);
   categoryFilter.sort((a, b) => a.order - b.order);
-  const updatePromises =  categoryFilter.map((item, index) => {
-    item.order = order + index + 1; 
+  const updatePromises = categoryFilter.map((item, index) => {
+    item.order = order + index + 1;
     return categoryRepositry.updateCategory(String(item._id), item);
   });
   await Promise.all(updatePromises);
 
-  await categoryRepositry.updateCategory(String(categoryUpdate._id),categoryUpdate);
-}
+  await categoryRepositry.updateCategory(
+    String(categoryUpdate._id),
+    categoryUpdate
+  );
+};
