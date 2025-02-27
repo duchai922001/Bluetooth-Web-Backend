@@ -8,4 +8,8 @@ export class FilterProductDto {
   @IsString()
   @IsOptional()
   brandId?: string;
+
+  @IsString()
+  @IsOptional()
+  url?: string;
 }

@@ -123,30 +123,39 @@ export const getFilterProductService = async (formFilter: any) => {
     FilterProductDto,
     formFilter
   );
-  //get products by brandId and categoryId
-  //Nếu không có brandID hoặc categoryID thì trả về tất cả
-  if (!formFilterData?.brandId && !formFilterData?.categoryId) {
-    const products = await productRepository.getProducts();
-    return products;
-  }
-  //Nếu có 1 trong hai brandId và categoryId thì lọc ra các sản phẩm thỏa mãn
-  if (formFilterData?.brandId && !formFilterData?.categoryId) {
-    const products = await productRepository.findProductByBrand(
-      formFilterData.brandId
+
+  // Nếu có URL nhưng không có categoryId, lấy categoryId từ URL
+  if (formFilterData?.url && !formFilterData?.categoryId) {
+    const category = await categoryRepository.getCategoryByUrl(
+      formFilterData.url
     );
-    return products;
+    if (category) {
+      formFilterData.categoryId = category.id;
+    }
   }
+
+  // Nếu không có brandId và categoryId thì trả về tất cả sản phẩm
+  if (!formFilterData?.brandId && !formFilterData?.categoryId) {
+    return await productRepository.getProducts();
+  }
+
+  // Nếu có brandId nhưng không có categoryId
+  if (formFilterData?.brandId && !formFilterData?.categoryId) {
+    return await productRepository.findProductByBrand(formFilterData.brandId);
+  }
+
+  // Nếu có categoryId nhưng không có brandId
   if (!formFilterData?.brandId && formFilterData?.categoryId) {
-    const products = await productRepository.findProductByCategory(
+    return await productRepository.findProductByCategory(
       formFilterData.categoryId
     );
-    return products;
   }
-  const products = await productRepository.findProductByBrandAndCategory(
+
+  // Nếu có cả brandId và categoryId
+  return await productRepository.findProductByBrandAndCategory(
     formFilterData.brandId,
     formFilterData.categoryId
   );
-  return products;
 };
 
 export const getProductSpecialService = async () => {
