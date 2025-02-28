@@ -4,8 +4,19 @@ import { ProductStatus } from "../../domain/enums/product-status.enum";
 export interface Variant {
   attributes: Record<string, string>;
   price: number;
+  priceDiscount?: number;
   status?: ProductStatus;
-  stock: number,
+  stock: number;
+}
+
+export interface SpecificationSub {
+  key: string;
+  value: string;
+}
+
+export interface Specification {
+  nameGroup: string;
+  specificationsSub: SpecificationSub[];
 }
 export interface IProduct extends Document {
   name: string;
@@ -13,13 +24,15 @@ export interface IProduct extends Document {
   brandId: Schema.Types.ObjectId;
   description: string;
   price?: number;
+  priceDiscount?: number;
   variants?: Variant[];
   stock: number;
   status: ProductStatus;
   isDeleted: boolean;
   imageThumbnailUrl: string;
   imageUrls: string[];
-  infoProduct: string
+  infoProduct: string;
+  specifications: Specification[];
 }
 
 const ProductSchema: Schema = new Schema<IProduct>(
@@ -43,17 +56,18 @@ const ProductSchema: Schema = new Schema<IProduct>(
         return !this.variants || this.variants.length === 0;
       },
     },
+    priceDiscount: { type: Number, default: 0 },
     variants: [
       {
         attributes: { type: Map, of: String, required: true },
         price: { type: Number, required: true },
+        priceDiscount: { type: Number, default: 0 },
         status: {
           type: String,
           enum: Object.values(ProductStatus),
           default: ProductStatus.AVAILABLE,
         },
-  stock: {type: Number, required: true},
-
+        stock: { type: Number, required: true },
       },
     ],
     stock: { type: Number, required: true },
@@ -65,6 +79,17 @@ const ProductSchema: Schema = new Schema<IProduct>(
     imageThumbnailUrl: { type: String, required: true },
     imageUrls: { type: [String] },
     isDeleted: { type: Boolean, default: false },
+    specifications: [
+      {
+        nameGroup: { type: String, required: true },
+        specificationsSub: [
+          {
+            key: { type: String, required: true },
+            value: { type: String, required: true },
+          },
+        ],
+      },
+    ],
   },
   {
     timestamps: true,

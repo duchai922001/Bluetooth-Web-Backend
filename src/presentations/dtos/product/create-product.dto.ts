@@ -12,6 +12,26 @@ import {
 import { Type } from "class-transformer";
 import { ProductStatus } from "../../../domain/enums/product-status.enum";
 
+export class SpecificationSubDTO {
+  @IsString()
+  @IsNotEmpty({ message: "Key của thông số bắt buộc" })
+  key!: string;
+
+  @IsString()
+  @IsNotEmpty({ message: "Value của thông số bắt buộc" })
+  value!: string;
+}
+export class SpecificationDTO {
+  @IsString()
+  @IsNotEmpty({ message: "Tên nhóm thông số bắt buộc" })
+  nameGroup!: string;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => SpecificationSubDTO)
+  @IsNotEmpty({ message: "Danh sách thông số không được để trống" })
+  specificationsSub!: SpecificationSubDTO[];
+}
 export class VariantDTO {
   @IsObject()
   @IsNotEmpty({ message: "Thuộc tính bắt buộc" })
@@ -20,6 +40,10 @@ export class VariantDTO {
   @IsNumber()
   @IsNotEmpty({ message: "Giá sản phẩm bắt buộc" })
   price!: number;
+
+  @IsNumber()
+  @IsOptional()
+  priceDiscount!: number;
 
   @IsEnum(ProductStatus, { message: "Trạng thái không hợp lệ" })
   @IsOptional()
@@ -51,7 +75,7 @@ export class CreateProductDTO {
   @IsString()
   @IsOptional()
   description?: string;
-  
+
   @IsString()
   @IsOptional()
   infoProduct?: string;
@@ -77,4 +101,10 @@ export class CreateProductDTO {
   @Type(() => VariantDTO)
   @IsOptional()
   variants?: VariantDTO[];
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => SpecificationDTO)
+  @IsOptional()
+  specifications?: SpecificationDTO[];
 }

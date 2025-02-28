@@ -162,7 +162,6 @@ export const getProductSpecialService = async () => {
   const getBrands = await brandRepository.getBrandsActive();
   const getProducts = await productRepository.getProductsActive();
   const getCategories = await categoryRepository.getCategoriesActive();
-  console.log({ getProducts });
   const result = getCategories.map((category) => {
     return {
       categoryId: category.id,
