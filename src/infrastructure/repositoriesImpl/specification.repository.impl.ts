@@ -8,7 +8,7 @@ export class SpecificationRepositoryImpl implements ISpecificationRepository {
   async getSpecificationByProductId(
     productId: string
   ): Promise<IProductSpecification[]> {
-    return await ProductSpecification.find({ productId });
+    return await ProductSpecification.find({ categoryId: productId });
   }
   async createSpecification(
     specification: IProductSpecification

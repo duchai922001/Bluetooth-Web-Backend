@@ -4,7 +4,7 @@ import { ProductStatus } from "../../domain/enums/product-status.enum";
 export interface Variant {
   attributes: Record<string, string>;
   price: number;
-  priceDiscount?: number;
+  salePrice?: number;
   status?: ProductStatus;
   stock: number;
 }
@@ -24,7 +24,7 @@ export interface IProduct extends Document {
   brandId: Schema.Types.ObjectId;
   description: string;
   price?: number;
-  priceDiscount?: number;
+  salePrice?: number;
   variants?: Variant[];
   stock: number;
   status: ProductStatus;
@@ -56,12 +56,12 @@ const ProductSchema: Schema = new Schema<IProduct>(
         return !this.variants || this.variants.length === 0;
       },
     },
-    priceDiscount: { type: Number, default: 0 },
+    salePrice: { type: Number, default: 0 },
     variants: [
       {
         attributes: { type: Map, of: String, required: true },
         price: { type: Number, required: true },
-        priceDiscount: { type: Number, default: 0 },
+        salePrice: { type: Number, default: 0 },
         status: {
           type: String,
           enum: Object.values(ProductStatus),

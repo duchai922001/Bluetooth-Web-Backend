@@ -43,7 +43,7 @@ export class VariantDTO {
 
   @IsNumber()
   @IsOptional()
-  priceDiscount!: number;
+  salePrice!: number;
 
   @IsEnum(ProductStatus, { message: "Trạng thái không hợp lệ" })
   @IsOptional()
