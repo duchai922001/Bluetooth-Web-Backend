@@ -5,10 +5,10 @@ import {
 } from "../model/productSpecification.model";
 
 export class SpecificationRepositoryImpl implements ISpecificationRepository {
-  async getSpecificationByProductId(
-    productId: string
+  async getSpecificationByCategoryId(
+    categoryId: string
   ): Promise<IProductSpecification[]> {
-    return await ProductSpecification.find({ categoryId: productId });
+    return await ProductSpecification.find({ categoryId });
   }
   async createSpecification(
     specification: IProductSpecification

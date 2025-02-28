@@ -4,7 +4,7 @@ export interface ISpecificationRepository {
   createSpecification(
     specification: IProductSpecification
   ): Promise<IProductSpecification>;
-  getSpecificationByProductId(
-    productId: string
+  getSpecificationByCategoryId(
+    categoryId: string
   ): Promise<IProductSpecification[]>;
 }
