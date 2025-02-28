@@ -7,6 +7,7 @@ import {
   getCategoriesActive,
   getCategoriesInActive,
   getCategoryById,
+  getCategoryByUrlService,
   getCategoryFormatMenu,
   restoreCategoryService,
   updateCategoryService,
@@ -117,4 +118,9 @@ export const updateOrderCategory = async (req: Request, res: Response) => {
   const {order} = req.body
   await updateOrderCategoryService(categoryUrl, order)
   res.json(successResponse(HttpStatus.OK, "Update success"))
+}
+export const getCategoryByUrl = async (req: Request, res: Response) => {
+  const {categoryUrl} = req.params
+  const data = await getCategoryByUrlService(categoryUrl)
+  res.json(successResponse(HttpStatus.OK, "Get data success", data))
 }
