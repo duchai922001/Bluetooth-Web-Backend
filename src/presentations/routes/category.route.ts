@@ -13,6 +13,7 @@ import {
   getCategoriesFormatMenuController,
   getCategoriesInActiveController,
   getCategoryByIdController,
+  getCategoryByUrl,
   restoreCategoryController,
   updateCategoryController,
   updateOrderCategory,
@@ -78,4 +79,5 @@ categoryRoutes.get(
 );
 
 categoryRoutes.put("/update-order/:categoryUrl", catchAsync(updateOrderCategory))
+categoryRoutes.get("/get-category-url/:categoryUrl", catchAsync(getCategoryByUrl))
 export default categoryRoutes;

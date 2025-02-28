@@ -209,3 +209,7 @@ export const updateOrderCategoryService = async (
     categoryUpdate
   );
 };
+
+export const getCategoryByUrlService = async (url: string) => {
+    return await categoryRepositry.getCategoryByUrl(url);
+}
