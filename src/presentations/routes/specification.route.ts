@@ -11,14 +11,15 @@ const specificaionRoutes = Router();
 
 specificaionRoutes.post(
   "/create",
-  verifyToken,
-  authorizeRoles(RoleEnum.ADMIN, RoleEnum.STAFF),
-  transformAndValidate(SpecificationDTO),
   catchAsync(SpecificationController.createSpecification)
 );
 specificaionRoutes.get(
   "/:categoryId",
   catchAsync(SpecificationController.getSpecificationByCategoryId)
+);
+specificaionRoutes.get(
+  "/get-filter-category/:categoryUrl",
+  catchAsync(SpecificationController.getSpecificationByCategoryUrl)
 );
 
 export default specificaionRoutes;

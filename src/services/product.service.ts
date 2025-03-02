@@ -9,28 +9,12 @@ import { SpecificationRepositoryImpl } from "../infrastructure/repositoriesImpl/
 import { VariantRepositoryImpl } from "../infrastructure/repositoriesImpl/variant.repository.impl";
 import { CreateProductDTO } from "../presentations/dtos/product/create-product.dto";
 import { FilterProductDto } from "../presentations/dtos/product/filter-product.dto";
-import { ProductDTO } from "../presentations/dtos/product/product.dto";
 import { UpdateProductDTO } from "../presentations/dtos/product/update-product.dto";
 import { createAndValidateDto } from "../utils/createAndValidateDto.util";
 const productRepository = new ProductRepositoryImpl();
-const specificationRepository = new SpecificationRepositoryImpl();
 const variantRepository = new VariantRepositoryImpl();
 const brandRepository = new BrandRepositoryImpl();
 const categoryRepository = new CategoryRepositoryImpl();
-async function getSpecifications(
-  productId: string
-): Promise<IProductSpecification[]> {
-  const specifications =
-    await specificationRepository.getSpecificationByProductId(productId);
-  const plainSpecification = specifications.map((spec: any) => {
-    const specObject = spec.toObject();
-    delete specObject._id;
-    delete specObject.productId;
-    delete specObject.updatedAt, delete specObject.createdAt;
-    return specObject;
-  });
-  return plainSpecification;
-}
 
 async function getVariants(productId: string): Promise<IProductVariant[]> {
   const variants = await variantRepository.getVariantByProductId(productId);

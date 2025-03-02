@@ -10,9 +10,9 @@ export class SpecificationRepositoryImpl implements ISpecificationRepository {
   ): Promise<IProductSpecification[]> {
     return await ProductSpecification.find({ categoryId });
   }
-  async createSpecification(
-    specification: IProductSpecification
-  ): Promise<IProductSpecification> {
-    return await ProductSpecification.create(specification);
+  async createSpecifications(
+    specifications: IProductSpecification[]
+  ): Promise<IProductSpecification[]> {
+    return await ProductSpecification.insertMany(specifications);
   }
 }

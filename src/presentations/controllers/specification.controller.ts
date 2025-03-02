@@ -5,8 +5,9 @@ import { SpecificationService } from "../../services/specification.service";
 
 export const SpecificationController = {
   createSpecification: async (req: Request, res: Response) => {
+    const { categoryId, type } = req.body;
     const newSpecificationOfProduct =
-      await SpecificationService.createSpecification(req.body);
+      await SpecificationService.createSpecification(categoryId, type);
     res.json(
       successResponse(
         HttpStatus.CREATED,
@@ -17,9 +18,31 @@ export const SpecificationController = {
   },
   getSpecificationByCategoryId: async (req: Request, res: Response) => {
     const { categoryId } = req.params;
+
     const data = await SpecificationService.getSpecificationByCategoryId(
       categoryId
     );
+    const mapFormatData = {
+      categoryId: data[0]?.categoryId,
+      type: data.map((item) => ({
+        groupName: item.groupName,
+        specifications: item.specifications.map((spec) => ({
+          name: spec.name,
+          id: spec._id,
+        })),
+      })),
+    };
+    return res.json(
+      successResponse(HttpStatus.OK, "Get data success", mapFormatData)
+    );
+  },
+
+  getSpecificationByCategoryUrl: async (req: Request, res: Response) => {
+    const { categoryUrl } = req.params;
+    const data = await SpecificationService.getSpecificationFilterByCategoryUrl(
+      categoryUrl
+    );
+
     return res.json(successResponse(HttpStatus.OK, "Get data success", data));
   },
 };

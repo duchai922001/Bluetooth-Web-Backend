@@ -1,16 +1,27 @@
 import mongoose, { Schema, Document } from "mongoose";
 
+export interface ISpecification {
+  _id: string;
+  name: string;
+  checkedFilter: boolean;
+}
+
 export interface IProductSpecification extends Document {
   categoryId: string;
-  key: string;
-  value: string;
+  groupName: string;
+  specifications: ISpecification[];
 }
 
 const ProductSpecificationSchema: Schema = new Schema(
   {
     categoryId: { type: String, required: true },
-    name: { type: String, required: true },
-    value: { type: String, required: true },
+    groupName: { type: String, required: true },
+    specifications: [
+      {
+        name: { type: String, required: true },
+        checkedFilter: { type: Boolean, default: false },
+      },
+    ],
   },
   { timestamps: true, versionKey: false }
 );
