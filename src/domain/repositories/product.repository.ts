@@ -16,4 +16,5 @@ export interface IProductRepository {
     brandId: string,
     categoryId: string
   ): Promise<IProduct[]>;
+  filterProduct(categoryId: string, values: string[]): Promise<IProduct[]>;
 }

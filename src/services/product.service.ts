@@ -176,3 +176,10 @@ export const getProductSpecialService = async () => {
   });
   return result;
 };
+
+export const filterProductService = async (
+  categoryId: string,
+  values: string[]
+) => {
+  return await productRepository.filterProduct(categoryId, values);
+};

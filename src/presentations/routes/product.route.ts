@@ -9,6 +9,7 @@ import {
   createProductController,
   deleteProductController,
   deleteSoftProductController,
+  filterProductController,
   getFilteredProductsController,
   getProductByIdController,
   getProductsActiveController,
@@ -59,8 +60,12 @@ productRoutes.post(
   transformAndValidate(FilterProductDto),
   catchAsync(getFilteredProductsController)
 );
+productRoutes.post("/get-filter-spec", catchAsync(filterProductController));
 
-productRoutes.get("/get-product-id/:productId", catchAsync(getProductByIdController));
+productRoutes.get(
+  "/get-product-id/:productId",
+  catchAsync(getProductByIdController)
+);
 
 productRoutes.get("/get-product-special", catchAsync(getProductSpecial));
 export default productRoutes;

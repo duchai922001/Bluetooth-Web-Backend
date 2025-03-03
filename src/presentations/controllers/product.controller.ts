@@ -3,6 +3,7 @@ import {
   createProductService,
   deleteProductService,
   deleteSoftProductService,
+  filterProductService,
   getFilterProductService,
   getProductByIdService,
   getProductsActiveService,
@@ -32,11 +33,9 @@ export const getProductsController = async (req: Request, res: Response) => {
 };
 
 export const getProductByIdController = async (req: Request, res: Response) => {
-  const {productId} = req.params
+  const { productId } = req.params;
   const product = await getProductByIdService(productId);
-  res.json(
-    successResponse(HttpStatus.OK, "Get Product Successfully", product)
-  );
+  res.json(successResponse(HttpStatus.OK, "Get Product Successfully", product));
 };
 export const getProductsActiveController = async (
   req: Request,
@@ -93,5 +92,13 @@ export const getProductSpecial = async (req: Request, res: Response) => {
       "Get Product Special Successfully",
       productSpecial
     )
+  );
+};
+
+export const filterProductController = async (req: Request, res: Response) => {
+  const { categoryId, values } = req.body;
+  const data = await filterProductService(categoryId, values);
+  return res.json(
+    successResponse(HttpStatus.OK, "Get Product  Successfully", data)
   );
 };
