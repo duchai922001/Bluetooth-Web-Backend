@@ -96,8 +96,8 @@ export const getProductSpecial = async (req: Request, res: Response) => {
 };
 
 export const filterProductController = async (req: Request, res: Response) => {
-  const { categoryId, values } = req.body;
-  const data = await filterProductService(categoryId, values);
+  const { categoryUrl, values } = req.body;
+  const data = await filterProductService(categoryUrl, values);
   return res.json(
     successResponse(HttpStatus.OK, "Get Product  Successfully", data)
   );

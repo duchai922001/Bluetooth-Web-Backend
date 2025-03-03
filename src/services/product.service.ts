@@ -1,4 +1,5 @@
 import { BadRequestException } from "../domain/exceptions/bad-request.exception";
+import { NotFoundException } from "../domain/exceptions/not-found.exception";
 import { IProduct } from "../infrastructure/model/product.model";
 import { IProductSpecification } from "../infrastructure/model/productSpecification.model";
 import { IProductVariant } from "../infrastructure/model/productVariant.model";
@@ -178,8 +179,15 @@ export const getProductSpecialService = async () => {
 };
 
 export const filterProductService = async (
-  categoryId: string,
+  categoryUrl: string,
   values: string[]
 ) => {
-  return await productRepository.filterProduct(categoryId, values);
+  const findCategory = await categoryRepository.getCategoryByUrl(categoryUrl);
+  if (!findCategory) {
+    throw new NotFoundException("category not found");
+  }
+  return await productRepository.filterProduct(
+    findCategory._id as string,
+    values
+  );
 };
