@@ -29,6 +29,7 @@ export const SpecificationController = {
         specifications: item.specifications.map((spec) => ({
           name: spec.name,
           id: spec._id,
+          checkedFilter: spec.checkedFilter,
         })),
       })),
     };
