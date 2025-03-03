@@ -186,6 +186,11 @@ export const filterProductService = async (
   if (!findCategory) {
     throw new NotFoundException("category not found");
   }
+  if (values.length === 0) {
+    return await productRepository.findProductByCategory(
+      findCategory._id as string
+    );
+  }
   return await productRepository.filterProduct(
     findCategory._id as string,
     values
