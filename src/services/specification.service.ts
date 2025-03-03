@@ -72,4 +72,7 @@ export const SpecificationService = {
         values: [...values],
       }));
   },
+  updateSpecification: async (id: string, data: any) => {
+    return await specificationRepo.updateSpecification(id, data);
+  },
 };

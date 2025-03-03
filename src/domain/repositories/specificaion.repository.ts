@@ -7,4 +7,8 @@ export interface ISpecificationRepository {
   getSpecificationByCategoryId(
     categoryId: string
   ): Promise<IProductSpecification[]>;
+  updateSpecification(
+    id: string,
+    data: any
+  ): Promise<IProductSpecification | null>;
 }

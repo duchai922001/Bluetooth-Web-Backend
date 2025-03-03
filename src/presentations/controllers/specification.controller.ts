@@ -45,4 +45,15 @@ export const SpecificationController = {
 
     return res.json(successResponse(HttpStatus.OK, "Get data success", data));
   },
+
+  updateSpecification: async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const dataUpdate = await SpecificationService.updateSpecification(
+      id,
+      req.body
+    );
+    return res.json(
+      successResponse(HttpStatus.OK, "Update data success", dataUpdate)
+    );
+  },
 };

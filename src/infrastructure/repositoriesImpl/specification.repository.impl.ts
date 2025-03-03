@@ -5,6 +5,14 @@ import {
 } from "../model/productSpecification.model";
 
 export class SpecificationRepositoryImpl implements ISpecificationRepository {
+  async updateSpecification(
+    id: string,
+    data: any
+  ): Promise<IProductSpecification | null> {
+    return await ProductSpecification.findByIdAndUpdate(id, data, {
+      new: true,
+    });
+  }
   async getSpecificationByCategoryId(
     categoryId: string
   ): Promise<IProductSpecification[]> {

@@ -13,6 +13,10 @@ specificaionRoutes.post(
   "/create",
   catchAsync(SpecificationController.createSpecification)
 );
+specificaionRoutes.put(
+  "/update/:id",
+  catchAsync(SpecificationController.updateSpecification)
+);
 specificaionRoutes.get(
   "/:categoryId",
   catchAsync(SpecificationController.getSpecificationByCategoryId)
