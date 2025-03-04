@@ -40,4 +40,7 @@ export const SubBannerService = {
   deleteSubBanner: async (id: string) => {
     return await subBannerRepo.deleteSubBanner(id);
   },
+  updateSubBanner: async (id: string, data: any) => {
+    return await subBannerRepo.updateSubBanner(id, data);
+  },
 };

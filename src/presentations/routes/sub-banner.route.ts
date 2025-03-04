@@ -23,9 +23,13 @@ subBannerRoutes.get(
   "/get-all",
   catchAsync(SubBannerController.getAllSubBanner)
 );
-subBannerRoutes.get(
+subBannerRoutes.delete(
   "/delete/:subBannerId",
   catchAsync(SubBannerController.deleteSubBanner)
+);
+subBannerRoutes.put(
+  "/update/:subBannerId",
+  catchAsync(SubBannerController.updateSubBanner)
 );
 
 export default subBannerRoutes;

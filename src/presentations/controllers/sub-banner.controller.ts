@@ -40,4 +40,10 @@ export const SubBannerController = {
     await SubBannerService.deleteSubBanner(subBannerId);
     return res.json(successResponse(HttpStatus.OK, "Delete Success"));
   },
+
+  updateSubBanner: async (req: Request, res: Response) => {
+    const { subBannerId } = req.params;
+    await SubBannerService.updateSubBanner(subBannerId, req.body);
+    return res.json(successResponse(HttpStatus.OK, "Update Success"));
+  },
 };
