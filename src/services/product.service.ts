@@ -147,34 +147,36 @@ export const getProductSpecialService = async () => {
   const getBrands = await brandRepository.getBrandsActive();
   const getProducts = await productRepository.getProductsActive();
   const getCategories = await categoryRepository.getCategoriesActive();
-  const result = getCategories.map((category) => {
-    return {
-      categoryId: category.id,
-      categoryName: category.name,
-      brands: getBrands
-        .filter((brand) => brand.categoryIds.includes(category.id))
-        .map((item) => {
-          return {
-            _id: item._id,
-            name: item.name,
-          };
-        }),
-      products: getProducts
-        .filter(
-          (product) => String(product.categoryId) === String(category._id)
-        )
-        .map((item) => {
-          return {
-            _id: item._id,
-            name: item.name,
-            price: item.variants?.length
-              ? item.variants?.[0].price
-              : item.price,
-            imageThumbnailUrl: item.imageThumbnailUrl,
-          };
-        }),
-    };
-  });
+  const result = getCategories
+    .sort((a, b) => a.order - b.order)
+    .map((category) => {
+      return {
+        categoryId: category.id,
+        categoryName: category.name,
+        brands: getBrands
+          .filter((brand) => brand.categoryIds.includes(category.id))
+          .map((item) => {
+            return {
+              _id: item._id,
+              name: item.name,
+            };
+          }),
+        products: getProducts
+          .filter(
+            (product) => String(product.categoryId) === String(category._id)
+          )
+          .map((item) => {
+            return {
+              _id: item._id,
+              name: item.name,
+              price: item.variants?.length
+                ? item.variants?.[0].price
+                : item.price,
+              imageThumbnailUrl: item.imageThumbnailUrl,
+            };
+          }),
+      };
+    });
   return result;
 };
 
