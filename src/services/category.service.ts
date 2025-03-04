@@ -196,7 +196,9 @@ export const updateOrderCategoryService = async (
     throw new NotFoundException("Không tìm thấy category");
   }
   categoryUpdate.order = order;
-  const categoryFilter = categories.filter((item) => item.url !== categoryUrl);
+  const categoryFilter = categories.filter(
+    (item) => item.url !== categoryUrl && item.order >= order
+  );
   categoryFilter.sort((a, b) => a.order - b.order);
   const updatePromises = categoryFilter.map((item, index) => {
     item.order = order + index + 1;
@@ -211,5 +213,5 @@ export const updateOrderCategoryService = async (
 };
 
 export const getCategoryByUrlService = async (url: string) => {
-    return await categoryRepositry.getCategoryByUrl(url);
-}
+  return await categoryRepositry.getCategoryByUrl(url);
+};
