@@ -15,6 +15,7 @@ import statisticalRoutes from "./statistical.route";
 import feedbackRoutes from "./feedback.route";
 import uploadImageRoutes from "./upload-image.route";
 import contentCategoryRoutes from "./content-category.route";
+import subBannerRoutes from "./sub-banner.route";
 
 export const mainRoutes = (app: any) => {
   app.use("/", userRoutes);
@@ -29,6 +30,7 @@ export const mainRoutes = (app: any) => {
   app.use("/upload", uploadImageRoutes);
   app.use("/statistical", statisticalRoutes);
   app.use("/content-category", contentCategoryRoutes);
+  app.use("/sub-banner", subBannerRoutes);
   app.use("*", (req: Request, res: Response) => {
     const notFoundException = new NotFoundException("Endpoint not found");
     res.status(HttpStatus.NOT_FOUND).json(notFoundException.toResponse());
