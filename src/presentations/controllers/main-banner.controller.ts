@@ -17,9 +17,9 @@ export const MainBannerController = {
       );
   },
   updateOrder: async (req: Request, res: Response) => {
-    const { MainBannerId } = req.params;
+    const { mainBannerId } = req.params;
     const { order } = req.body;
-    await MainBannerService.updateOrder(MainBannerId, order);
+    await MainBannerService.updateOrder(mainBannerId, order);
     return res.json(successResponse(HttpStatus.OK, "Update success"));
   },
 

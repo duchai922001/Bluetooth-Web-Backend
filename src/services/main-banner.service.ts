@@ -11,15 +11,15 @@ export const MainBannerService = {
     return await MainBannerRepo.createMainBanner(dataDTO);
   },
   updateOrder: async (id: string, order: number) => {
-    const MainBanners = await MainBannerRepo.findMainBannerIsShow();
-    const MainBannerUpdate = await MainBannerRepo.findMainBannerById(id);
-    if (!MainBannerUpdate) {
-      throw new NotFoundException("Sub Banner not found");
+    const mainBanners = await MainBannerRepo.findMainBannerIsShow();
+    const mainBannerUpdate = await MainBannerRepo.findMainBannerById(id);
+    if (!mainBannerUpdate) {
+      throw new NotFoundException("Banner not found");
     }
-    MainBannerUpdate.order = order;
-    const filterMainBanners = MainBanners.filter(
-      (item) => item._id !== id && item.order >= order
-    ).sort((a, b) => a.order - b.order);
+    mainBannerUpdate.order = order;
+    const filterMainBanners = mainBanners
+      .filter((item) => item._id !== id && item.order >= order)
+      .sort((a, b) => a.order - b.order);
 
     const updatePromises = filterMainBanners.map((item, index) => {
       item.order = order + index + 1;
@@ -27,8 +27,8 @@ export const MainBannerService = {
     });
     await Promise.all(updatePromises);
     await MainBannerRepo.updateMainBanner(
-      String(MainBannerUpdate._id),
-      MainBannerUpdate
+      String(mainBannerUpdate._id),
+      mainBannerUpdate
     );
   },
   getMainBannerIsShow: async () => {
