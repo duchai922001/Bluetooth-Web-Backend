@@ -23,7 +23,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "WEBBLUETOOTH" as string,
     allowedFormats: ["jpg", "png", "jpeg"],
-    transformation: [{ width: 500, height: 500, crop: "limit" }] as any,
+    // transformation: [{ width: 500, height: 500, crop: "limit" }] as any,
   } as ICustomParamsUpdate,
 });
 
