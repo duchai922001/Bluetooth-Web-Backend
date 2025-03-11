@@ -1,22 +1,21 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface IBlog extends Document {
-  html: string;
-  type: "brand" | "category" | "technology";
-  brandId?: string;
-  categoryId?: string;
+  title: string;
+  content: string;
+  categoryNewId: string;
+  tags: string[];
 }
 
 const BlogSchema: Schema = new Schema<IBlog>(
   {
-    html: { type: String, required: true, unique: true },
-    type: {
+    title: { type: String, required: true, unique: true },
+    content: { type: String, required: true, unique: true },
+    categoryNewId: {
       type: String,
-      enum: ["brand", "category", "technology"],
       required: true,
     },
-    brandId: { type: String, default: null },
-    categoryId: { type: String, default: null },
+    tags: { type: [String], default: null },
   },
   {
     timestamps: true,

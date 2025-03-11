@@ -18,6 +18,9 @@ import contentCategoryRoutes from "./content-category.route";
 import subBannerRoutes from "./sub-banner.route";
 import mainBannerRoutes from "./main-banner.route";
 import promotionRoutes from "./promotion.route";
+import tagRoutes from "./tag.route";
+import categoyNewRoutes from "./category-new.route";
+import blogRoutes from "./blog.route";
 
 export const mainRoutes = (app: any) => {
   app.use("/", userRoutes);
@@ -35,6 +38,9 @@ export const mainRoutes = (app: any) => {
   app.use("/sub-banner", subBannerRoutes);
   app.use("/main-banner", mainBannerRoutes);
   app.use("/promotion", promotionRoutes);
+  app.use("/tag", tagRoutes);
+  app.use("/category-new", categoyNewRoutes);
+  app.use("/blog", blogRoutes);
   app.use("*", (req: Request, res: Response) => {
     const notFoundException = new NotFoundException("Endpoint not found");
     res.status(HttpStatus.NOT_FOUND).json(notFoundException.toResponse());
