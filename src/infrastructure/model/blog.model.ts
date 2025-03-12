@@ -5,6 +5,7 @@ export interface IBlog extends Document {
   content: string;
   categoryNewId: string;
   tags: string[];
+  image: string;
 }
 
 const BlogSchema: Schema = new Schema<IBlog>(
@@ -16,6 +17,7 @@ const BlogSchema: Schema = new Schema<IBlog>(
       required: true,
     },
     tags: { type: [String], default: null },
+    image: { type: String, default: null },
   },
   {
     timestamps: true,
