@@ -213,5 +213,20 @@ export const updateOrderCategoryService = async (
 };
 
 export const getCategoryByUrlService = async (url: string) => {
-  return await categoryRepositry.getCategoryByUrl(url);
+  const findCategory = await categoryRepositry.getCategoryByUrl(url);
+  if (!findCategory) {
+    throw new NotFoundException("Không tìm thấy category");
+  }
+  const mapData = {
+    categoryId: findCategory._id,
+    name: findCategory.name,
+    url: findCategory.url,
+    imageLogo: findCategory.imageLogo,
+    subCategories: await Promise.all(
+      findCategory.subCategories.map(async (subCategory) => {
+        return await categoryRepositry.findCategoryById(subCategory);
+      })
+    ),
+  }
+  return mapData;
 };

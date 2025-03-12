@@ -11,4 +11,5 @@ blogRoutes.get(
   catchAsync(BlogController.getBlogByCategoryNewId)
 );
 
+
 export default blogRoutes;
