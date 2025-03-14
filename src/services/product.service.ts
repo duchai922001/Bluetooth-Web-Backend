@@ -169,6 +169,9 @@ export const getProductSpecialService = async () => {
             return {
               _id: item._id,
               name: item.name,
+              salePrice: item.variants?.length
+                ? item.variants?.[0].salePrice
+                : item.salePrice,
               price: item.variants?.length
                 ? item.variants?.[0].price
                 : item.price,
