@@ -1,12 +1,4 @@
-import { Type } from "class-transformer";
-import {
-  IsArray,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateCategoryDto {
   @IsString()
@@ -22,6 +14,6 @@ export class CreateCategoryDto {
   imageLogo!: string;
 
   @IsNumber()
-  @IsNotEmpty({message: "Order không được để trống"})
-  order?: number
+  @IsOptional()
+  order?: number;
 }
