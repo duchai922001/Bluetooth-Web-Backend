@@ -14,17 +14,8 @@ export interface IPromotion extends Document {
   discountType: DiscountType;
   discountPercent?: number;
   discountMoney?: number;
+  isShow?: boolean;
 }
-
-// const ProductEventSchema: Schema = new Schema(
-//   {
-//     listProducts: [
-//       { type: Schema.Types.ObjectId, ref: "Product", required: true },
-//     ],
-//     imageCard: { type: String, required: true },
-//   },
-//   { _id: false }
-// );
 
 const PromotionSchema: Schema = new Schema(
   {
@@ -54,6 +45,7 @@ const PromotionSchema: Schema = new Schema(
         return this.discountType === DiscountType.MONEY;
       },
     },
+    isShow: { type: Boolean, default: false },
   },
   { timestamps: true, versionKey: false }
 );

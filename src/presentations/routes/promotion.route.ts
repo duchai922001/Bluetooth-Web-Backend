@@ -24,5 +24,9 @@ promotionRoutes.get(
   "/:promotionId",
   catchAsync(PromotionController.getPromotionById)
 );
+promotionRoutes.get(
+  "/active",
+  catchAsync(PromotionController.getPromotionActive)
+);
 
 export default promotionRoutes;

@@ -8,4 +8,5 @@ export interface IPromotionRepository {
   ): Promise<IPromotion | null>;
   deletePromotion(eventId: string): Promise<boolean>;
   getPromotion(eventId: string): Promise<IPromotion | null>;
+  getPromotionActive(): Promise<IPromotion | null>;
 }

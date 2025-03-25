@@ -24,4 +24,13 @@ export class PromotionRepositoryImpl implements IPromotionRepository {
   async getPromotion(eventId: string): Promise<IPromotion | null> {
     return await Promotion.findById(eventId);
   }
+  async getPromotionActive(): Promise<IPromotion | null> {
+    const now = new Date();
+    const promotion = await Promotion.findOne({
+      isShow: true,
+      startDate: { $lte: now }, // Ngày bắt đầu <= thời gian hiện tại
+      endDate: { $gte: now }, // Ngày kết thúc >= thời gian hiện tại
+    });
+    return promotion;
+  }
 }

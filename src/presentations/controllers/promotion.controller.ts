@@ -55,4 +55,10 @@ export const PromotionController = {
       )
     );
   },
+  getPromotionActive: async (req: Request, res: Response) => {
+    const promotion = await PromotionService.getPromotionActive();
+    res.json(
+      successResponse(HttpStatus.OK, "Get data successfully", promotion)
+    );
+  },
 };

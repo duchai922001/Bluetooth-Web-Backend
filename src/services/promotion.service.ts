@@ -1,4 +1,5 @@
-import { IPromotion } from "../infrastructure/model/promotion.model";
+import { BadRequestException } from "../domain/exceptions/bad-request.exception";
+import { IPromotion, Promotion } from "../infrastructure/model/promotion.model";
 import { PromotionRepositoryImpl } from "../infrastructure/repositoriesImpl/promotion.repository.impl";
 import { PromotionDTO } from "../presentations/dtos/promotion/promotion.dto";
 import { createAndValidateDto } from "../utils/createAndValidateDto.util";
@@ -9,6 +10,23 @@ export const PromotionService = {
       PromotionDTO,
       promotionData
     );
+    const existingPromotion = await Promotion.findOne({
+      isShow: true,
+      $or: [
+        {
+          startDate: { $lt: createPromotionDTO.endDate },
+          endDate: { $gt: createPromotionDTO.startDate },
+        },
+      ],
+    });
+
+    if (existingPromotion) {
+      throw new BadRequestException(
+        "Đã có khuyến mãi đang hoạt động trong khoảng thời gian này."
+      );
+    }
+
+    // Nếu không có khuyến mãi trùng, tiến hành tạo mới
     return await promotionRepository.createPromotion(createPromotionDTO);
   },
   updatePromotion: async (promotionId: string, updateData: IPromotion) => {
@@ -19,5 +37,8 @@ export const PromotionService = {
   },
   getPromotion: async (promotionId: string) => {
     return await promotionRepository.getPromotion(promotionId);
+  },
+  getPromotionActive: async () => {
+    return await promotionRepository.getPromotionActive();
   },
 };

@@ -6,6 +6,7 @@ import connectDB from "./config/connectDB";
 import { mainRoutes } from "./presentations/routes/main.route";
 import { configureSocketIO } from "./config/socket-io";
 import http from "http";
+import { startPromotionCron } from "./infrastructure/cron/promotion.cron";
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -20,7 +21,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-connectDB();
+connectDB().then(() => {
+  startPromotionCron();
+});
 
 mainRoutes(app);
 const PORT = process.env.PORT;
