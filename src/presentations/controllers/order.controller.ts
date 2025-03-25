@@ -12,8 +12,8 @@ import { successResponse } from "../../utils/response-success.util";
 import { HttpStatus } from "../../domain/enums/http-status.enum";
 
 export const createOrderController = async (req: Request, res: Response) => {
-  const userId = req.user.userId as string;
-  const newOrder = await createOrderService(userId, req.body.orders);
+  const user = res.locals.user;
+  const newOrder = await createOrderService(user.userId, req.body.orders);
   res.json(
     successResponse(HttpStatus.CREATED, "Order created successfully", newOrder)
   );

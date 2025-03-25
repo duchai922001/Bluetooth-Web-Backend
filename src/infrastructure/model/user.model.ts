@@ -1,7 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { RoleEnum } from "../../domain/enums/role-enum.enum";
 export interface IUser extends Document {
-  userId?: string;
   username: string;
   password: string;
   phone?: string;

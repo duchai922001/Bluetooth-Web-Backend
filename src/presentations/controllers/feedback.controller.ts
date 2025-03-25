@@ -8,8 +8,8 @@ import { HttpStatus } from "../../domain/enums/http-status.enum";
 import { BadRequestException } from "../../domain/exceptions/bad-request.exception";
 
 export const createFeedbackController = async (req: Request, res: Response) => {
-  const userId = req.user.userId as string;
-  const feedback = await createFeedbackService(userId, req.body);
+  const user = res.locals.user;
+  const feedback = await createFeedbackService(user.userId, req.body);
   res.json(
     successResponse(
       HttpStatus.CREATED,
