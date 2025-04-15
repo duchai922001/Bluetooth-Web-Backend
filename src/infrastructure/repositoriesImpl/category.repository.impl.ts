@@ -2,45 +2,49 @@ import { ICategoryRepository } from "../../domain/repositories/category.reposito
 import Category, { ICategory } from "../model/category.model";
 
 export class CategoryRepositoryImpl implements ICategoryRepository {
+  getCategoryNameById(categoryId: string): Promise<string | null> {
+    throw new Error("Method not implemented.");
+  }
+  [x: string]: any;
   async updateCategoriesOrder(categoryFilter: ICategory[], updateData: Partial<ICategory>): Promise<ICategory[]> {
     const updatedCategories: ICategory[] = [];
 
-  for (let category of categoryFilter) {
-    // Cập nhật từng category
-    category.order = updateData.order || category.order;  // Giả sử bạn chỉ cập nhật order, nếu có
+    for (let category of categoryFilter) {
+      // Cập nhật từng category
+      category.order = updateData.order || category.order;  // Giả sử bạn chỉ cập nhật order, nếu có
 
+      const updatedCategory = await Category.findOneAndUpdate(
+        { url: category.url },  // Tìm theo url
+        { $set: { order: category.order } },  // Cập nhật order
+        { new: true }  // Trả về đối tượng đã cập nhật
+      );
+
+      if (updatedCategory) {
+        updatedCategories.push(updatedCategory);
+      }
+    }
+
+    if (updatedCategories.length === 0) {
+      throw new Error("No categories were updated");
+    }
+
+    return updatedCategories;
+  }
+  async updateCategoryOrder(categoryUpdate: ICategory): Promise<ICategory | null> {
     const updatedCategory = await Category.findOneAndUpdate(
-      { url: category.url },  // Tìm theo url
-      { $set: { order: category.order } },  // Cập nhật order
-      { new: true }  // Trả về đối tượng đã cập nhật
+      { url: categoryUpdate.url },
+      { $set: categoryUpdate },
+      { new: true }
     );
 
-    if (updatedCategory) {
-      updatedCategories.push(updatedCategory);
+    if (!updatedCategory) {
+      throw new Error("Category not found or could not be updated");
     }
-  }
 
-  if (updatedCategories.length === 0) {
-    throw new Error("No categories were updated");
-  }
-
-  return updatedCategories;
-  }
- async updateCategoryOrder(categoryUpdate: ICategory): Promise<ICategory | null> {
-  const updatedCategory = await Category.findOneAndUpdate(
-    { url: categoryUpdate.url },  
-    { $set: categoryUpdate },  
-    { new: true }  
-  );
-
-  if (!updatedCategory) {
-    throw new Error("Category not found or could not be updated");
-  }
-
-  return updatedCategory;
+    return updatedCategory;
   }
   async getCategoryByUrl(url: string): Promise<ICategory | null> {
-    return await Category.findOne({url})
+    return await Category.findOne({ url })
   }
   async findCategoryById(categoryId: string): Promise<ICategory | null> {
     //code

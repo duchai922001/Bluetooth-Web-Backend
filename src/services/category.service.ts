@@ -230,3 +230,11 @@ export const getCategoryByUrlService = async (url: string) => {
   }
   return mapData;
 };
+
+export const getCategoryNameByIdService = async (categoryId: string): Promise<string> => {
+  const categoryName = await categoryRepositry.getCategoryNameById(categoryId);
+  if (!categoryName) {
+    throw new NotFoundException("Không tìm thấy category");
+  }
+  return categoryName;
+};

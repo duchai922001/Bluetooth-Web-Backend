@@ -12,6 +12,7 @@ import {
   restoreCategoryService,
   updateCategoryService,
   updateOrderCategoryService,
+  getCategoryNameByIdService,
 } from "../../services/category.service";
 import { HttpStatus } from "../../domain/enums/http-status.enum";
 import { successResponse } from "../../utils/response-success.util";
@@ -114,13 +115,19 @@ export const getCategoryByIdController = async (
 };
 
 export const updateOrderCategory = async (req: Request, res: Response) => {
-  const {categoryUrl} = req.params
-  const {order} = req.body
+  const { categoryUrl } = req.params
+  const { order } = req.body
   await updateOrderCategoryService(categoryUrl, order)
   res.json(successResponse(HttpStatus.OK, "Update success"))
 }
 export const getCategoryByUrl = async (req: Request, res: Response) => {
-  const {categoryUrl} = req.params
+  const { categoryUrl } = req.params
   const data = await getCategoryByUrlService(categoryUrl)
   res.json(successResponse(HttpStatus.OK, "Get data success", data))
 }
+
+export const getCategoryNameByIdController = async (req: Request, res: Response) => {
+  const categoryId = req.params.categoryId;
+  const categoryName = await getCategoryNameByIdService(categoryId);
+  res.json(successResponse(HttpStatus.OK, "Get Category Name Success", { name: categoryName }));
+};

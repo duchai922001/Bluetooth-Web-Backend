@@ -17,6 +17,7 @@ import {
   restoreCategoryController,
   updateCategoryController,
   updateOrderCategory,
+  getCategoryNameByIdController,
 } from "../controllers/category.controller";
 import { transformAndValidate } from "../../middlewares/transformAndValidate.middleware";
 import { UpdateCategoryDto } from "../dtos/category/update-category.dto";
@@ -80,4 +81,8 @@ categoryRoutes.get(
 
 categoryRoutes.put("/update-order/:categoryUrl", catchAsync(updateOrderCategory))
 categoryRoutes.get("/get-category-url/:categoryUrl", catchAsync(getCategoryByUrl))
+categoryRoutes.get(
+  "/get-name/:categoryId",
+  catchAsync(getCategoryNameByIdController)
+);
 export default categoryRoutes;

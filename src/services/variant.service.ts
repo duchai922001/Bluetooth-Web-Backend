@@ -31,3 +31,22 @@ export const createVariantService = async (
   await findProductAddVariant.save();
   return variantAdd;
 };
+
+export const updateProductSpecificationsService = async (
+  productId: string,
+  specifications: Array<{
+    nameGroup: string;
+    specificationsSub: Array<{
+      key: string;
+      value: string;
+    }>;
+  }>
+): Promise<void> => {
+  const product = await productRepository.findProductById(productId);
+  if (!product) {
+    throw new NotFoundException("Product not found");
+  }
+
+  product.specifications = specifications;
+  await product.save();
+};

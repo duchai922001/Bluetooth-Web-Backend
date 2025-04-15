@@ -22,4 +22,5 @@ export interface ICategoryRepository {
     updateData: Partial<ICategory>
   ): Promise<ICategory[]>;
   updateCategoryOrder(categoryUpdate: ICategory): Promise<ICategory | null>;
+  getCategoryNameById(categoryId: string): Promise<string | null>;
 }
