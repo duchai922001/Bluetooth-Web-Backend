@@ -51,7 +51,11 @@ export const updateProductController = async (req: Request, res: Response) => {
   const productId = req.params.productId;
   const product = await updateProductService(productId, req.body);
   res.json(
-    successResponse(HttpStatus.OK, "Update Product Successfully", product)
+    successResponse(
+      HttpStatus.OK,
+      "Update Product And Specifications Successfully",
+      product
+    )
   );
 };
 

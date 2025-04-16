@@ -25,6 +25,24 @@ class VariantDTO {
   status?: ProductStatus;
 }
 
+class SpecificationSubDTO {
+  @IsString()
+  key: string;
+
+  @IsString()
+  value: string;
+}
+
+class SpecificationDTO {
+  @IsString()
+  nameGroup: string;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => SpecificationSubDTO)
+  specificationsSub: SpecificationSubDTO[];
+}
+
 // DTO cho sản phẩm
 export class UpdateProductDTO {
   @IsString()
@@ -67,4 +85,10 @@ export class UpdateProductDTO {
   @IsString()
   @IsOptional()
   status?: ProductStatus;
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => SpecificationDTO)
+  specifications?: SpecificationDTO[];
 }

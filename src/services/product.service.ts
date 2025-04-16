@@ -73,6 +73,16 @@ export const updateProductService = async (
   if (!productId) {
     throw new BadRequestException("Product Id is required");
   }
+
+  // Validate specifications format if provided
+  if (updateProductDTO.specifications) {
+    updateProductDTO.specifications.forEach((spec: { nameGroup: any; specificationsSub: any; }) => {
+      if (!spec.nameGroup || !Array.isArray(spec.specificationsSub)) {
+        throw new BadRequestException("Invalid specification format");
+      }
+    });
+  }
+
   const product = await productRepository.updateProduct(
     productId,
     updateProductDTO
