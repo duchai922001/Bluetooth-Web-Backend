@@ -132,26 +132,29 @@ export const getFilterProductService = async (formFilter: any) => {
     }
   }
 
-  // Nếu không có brandId và categoryId thì trả về tất cả sản phẩm
-  if (!formFilterData?.brandId && !formFilterData?.categoryId) {
+  // Nếu không có brandName và categoryId thì trả về tất cả sản phẩm
+  if (!formFilterData?.brandName && !formFilterData?.categoryId) {
     return await productRepository.getProducts();
   }
 
-  // Nếu có brandId nhưng không có categoryId
-  if (formFilterData?.brandId && !formFilterData?.categoryId) {
-    return await productRepository.findProductByBrand(formFilterData.brandId);
-  }
-
-  // Nếu có categoryId nhưng không có brandId
-  if (!formFilterData?.brandId && formFilterData?.categoryId) {
-    return await productRepository.findProductByCategory(
+  // Nếu có brandName nhưng không có categoryId
+  if (formFilterData?.brandName) {
+    const brand = await brandRepository.getBrandByName(formFilterData.brandName);
+    if (!brand) {
+      throw new NotFoundException("Brand not found");
+    }
+    if (!formFilterData?.categoryId) {
+      return await productRepository.findProductByBrand(brand._id);
+    }
+    // Nếu có cả brandName và categoryId
+    return await productRepository.findProductByBrandAndCategory(
+      brand._id,
       formFilterData.categoryId
     );
   }
 
-  // Nếu có cả brandId và categoryId
-  return await productRepository.findProductByBrandAndCategory(
-    formFilterData.brandId,
+  // Nếu có categoryId nhưng không có brandName
+  return await productRepository.findProductByCategory(
     formFilterData.categoryId
   );
 };

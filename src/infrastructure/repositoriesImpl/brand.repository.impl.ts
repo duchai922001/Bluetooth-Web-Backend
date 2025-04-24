@@ -39,4 +39,7 @@ export class BrandRepositoryImpl implements IBrandRepository {
       new: true,
     });
   }
+  async getBrandByName(name: string): Promise<IBrand | null> {
+    return await Brand.findOne({ name: name, isDeleted: false });
+  }
 }

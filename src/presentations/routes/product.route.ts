@@ -57,7 +57,7 @@ productRoutes.delete(
   catchAsync(deleteProductController)
 );
 
-productRoutes.get(
+productRoutes.post(
   "/get-filter",
   transformAndValidate(FilterProductDto),
   catchAsync(getFilteredProductsController)

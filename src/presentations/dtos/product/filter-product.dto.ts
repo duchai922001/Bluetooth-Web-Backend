@@ -1,15 +1,15 @@
 import { IsOptional, IsString } from "class-validator";
 
 export class FilterProductDto {
-  @IsString()
   @IsOptional()
+  @IsString()
   categoryId?: string;
 
-  @IsString()
   @IsOptional()
-  brandId?: string;
+  @IsString()
+  brandName?: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   url?: string;
 }
