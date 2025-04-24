@@ -15,11 +15,13 @@ import {
   getProductsActiveController,
   getProductsController,
   getProductSpecial,
+  getProductWithFillController,
   updateProductController,
 } from "../controllers/product.controller";
 import { CreateProductDTO } from "../dtos/product/create-product.dto";
 import { UpdateProductDTO } from "../dtos/product/update-product.dto";
 import { FilterProductDto } from "../dtos/product/filter-product.dto";
+import { ProductFillDTO } from "../dtos/product/product-fill.dto";
 
 const productRoutes = Router();
 
@@ -55,7 +57,7 @@ productRoutes.delete(
   catchAsync(deleteProductController)
 );
 
-productRoutes.post(
+productRoutes.get(
   "/get-filter",
   transformAndValidate(FilterProductDto),
   catchAsync(getFilteredProductsController)
@@ -68,4 +70,11 @@ productRoutes.get(
 );
 
 productRoutes.get("/get-product-special", catchAsync(getProductSpecial));
+
+productRoutes.get(
+  "/get-with-fill",
+  transformAndValidate(ProductFillDTO),
+  catchAsync(getProductWithFillController)
+);
+
 export default productRoutes;

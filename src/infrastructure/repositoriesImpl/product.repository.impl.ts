@@ -1,7 +1,23 @@
-import { IProductRepository } from "../../domain/repositories/product.repository";
+import { IProductRepository } from "../repositories/product.repository";
 import Product, { IProduct } from "../model/product.model";
+import mongoose from "mongoose";
 
 export class ProductRepositoryImpl implements IProductRepository {
+  async countDocuments(query: any): Promise<number> {
+    return await Product.countDocuments(query);
+  }
+
+  async findProducts(
+    query: any,
+    options: { skip: number; limit: number; sort: any }
+  ): Promise<IProduct[]> {
+    return await Product.find(query)
+      .sort(options.sort)
+      .skip(options.skip)
+      .limit(options.limit)
+      .exec();
+  }
+
   async filterProduct(
     categoryId: string,
     values: string[]
@@ -32,9 +48,8 @@ export class ProductRepositoryImpl implements IProductRepository {
   async findProductById(productId: string): Promise<IProduct | null> {
     return await Product.findById(productId);
   }
-  async deleteProduct(productId: string): Promise<boolean> {
-    const product = await Product.findByIdAndDelete(productId);
-    return !!product;
+  async deleteProduct(productId: string): Promise<void> {
+    await Product.findByIdAndDelete(productId);
   }
   async updateProduct(
     productId: string,

@@ -9,6 +9,7 @@ import {
   getProductsActiveService,
   getProductSpecialService,
   getProductsService,
+  getProductWithFillService,
   updateProductService,
 } from "../../services/product.service";
 import { successResponse } from "../../utils/response-success.util";
@@ -105,4 +106,15 @@ export const filterProductController = async (req: Request, res: Response) => {
   return res.json(
     successResponse(HttpStatus.OK, "Get Product  Successfully", data)
   );
+};
+
+export const getProductWithFillController = async (req: Request, res: Response) => {
+  const { products, pagination } = await getProductWithFillService(req.body);
+  res.json({
+    statusCode: HttpStatus.OK,
+    message: "Get Products Successfully",
+    data: products,
+    pagination,
+    ok: true
+  });
 };

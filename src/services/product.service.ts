@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+import { ProductStatus } from "../domain/enums/product-status.enum";
 import { BadRequestException } from "../domain/exceptions/bad-request.exception";
 import { NotFoundException } from "../domain/exceptions/not-found.exception";
 import { IProduct } from "../infrastructure/model/product.model";
@@ -10,6 +12,7 @@ import { SpecificationRepositoryImpl } from "../infrastructure/repositoriesImpl/
 import { VariantRepositoryImpl } from "../infrastructure/repositoriesImpl/variant.repository.impl";
 import { CreateProductDTO } from "../presentations/dtos/product/create-product.dto";
 import { FilterProductDto } from "../presentations/dtos/product/filter-product.dto";
+import { ProductFillDTO, ProductSortEnum, ProductStatusFilter } from "../presentations/dtos/product/product-fill.dto";
 import { UpdateProductDTO } from "../presentations/dtos/product/update-product.dto";
 import { createAndValidateDto } from "../utils/createAndValidateDto.util";
 const productRepository = new ProductRepositoryImpl();
@@ -210,4 +213,75 @@ export const filterProductService = async (
     findCategory._id as string,
     values
   );
+};
+
+export const getProductWithFillService = async (fillDto: ProductFillDTO) => {
+  const query: any = {};
+  const { page = 1, limit = 10 } = fillDto;
+  const skip = (page - 1) * limit;
+
+  // Apply status filter
+  if (fillDto.status === ProductStatusFilter.ACTIVE) {
+    query.isDeleted = false;
+  } else if (fillDto.status === ProductStatusFilter.INACTIVE) {
+    query.isDeleted = true;
+  }
+
+  // Apply search by name
+  if (fillDto.searchName) {
+    query.name = { $regex: new RegExp(fillDto.searchName, 'i') };
+  }
+
+  // Apply category filter
+  if (fillDto.categoryId) {
+    query.categoryId = new mongoose.Types.ObjectId(fillDto.categoryId);
+  }
+
+  // Determine sort options
+  const sortOptions: any = {};
+  if (fillDto.sort) {
+    switch (fillDto.sort) {
+      case ProductSortEnum.PRICE_ASC:
+        sortOptions.price = 1;
+        break;
+      case ProductSortEnum.PRICE_DESC:
+        sortOptions.price = -1;
+        break;
+      case ProductSortEnum.DATE_ASC:
+        sortOptions.createdAt = 1;
+        break;
+      case ProductSortEnum.DATE_DESC:
+        sortOptions.createdAt = -1;
+        break;
+    }
+  }
+
+  try {
+    const [products, total] = await Promise.all([
+      productRepository.findProducts(query, {
+        skip,
+        limit,
+        sort: sortOptions
+      }),
+      productRepository.countDocuments(query)
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      products: products.map(product => ({
+        ...product.toObject(),
+        id: product._id
+      })),
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalItems: total,
+        limit
+      }
+    };
+
+  } catch (error) {
+    throw new BadRequestException('Error fetching products');
+  }
 };
