@@ -10,6 +10,6 @@ blogRoutes.get(
   "/get-by-categoryNew/:categoryNewId",
   catchAsync(BlogController.getBlogByCategoryNewId)
 );
-
+blogRoutes.get("/get-all", catchAsync(BlogController.getAllBlogs));
 
 export default blogRoutes;

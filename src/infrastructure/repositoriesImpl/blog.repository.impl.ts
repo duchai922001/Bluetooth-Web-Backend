@@ -2,6 +2,10 @@ import { IBlogRepository } from "../../domain/repositories/blog.repository";
 import Blog, { IBlog } from "../model/blog.model";
 
 export class BlogRepositoryImpl implements IBlogRepository {
+  async getAllBlogs(): Promise<IBlog[]> {
+    return await Blog.find();
+  }
+  [x: string]: any;
   async createBlog(data: IBlog): Promise<IBlog> {
     return await Blog.create(data);
   }

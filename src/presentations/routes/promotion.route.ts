@@ -21,12 +21,12 @@ promotionRoutes.delete(
   catchAsync(PromotionController.deletePromotion)
 );
 promotionRoutes.get(
-  "/:promotionId",
-  catchAsync(PromotionController.getPromotionById)
+  "/get-active",
+  catchAsync(PromotionController.getPromotionActive)
 );
 promotionRoutes.get(
-  "/active",
-  catchAsync(PromotionController.getPromotionActive)
+  "/:promotionId",
+  catchAsync(PromotionController.getPromotionById)
 );
 
 export default promotionRoutes;

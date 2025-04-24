@@ -22,4 +22,8 @@ export const BlogController = {
     const data = await BlogService.getBlogByCategoryNewId(categoryNewId);
     return res.json(successResponse(HttpStatus.OK, "Get Blogs Success", data));
   },
+  getAllBlogs: async (req: Request, res: Response) => {
+    const data = await BlogService.getAllBlogs();
+    return res.json(successResponse(HttpStatus.OK, "Get All Blogs Success", data));
+  },
 };

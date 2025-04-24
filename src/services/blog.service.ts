@@ -12,4 +12,7 @@ export const BlogService = {
   getBlogByCategoryNewId: async (categoryNewId: string) => {
     return await blogRepo.getBlogByCategoryNewId(categoryNewId);
   },
+  getAllBlogs: async () => {
+    return await blogRepo.getAllBlogs();
+  },
 };
