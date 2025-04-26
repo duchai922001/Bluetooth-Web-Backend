@@ -15,4 +15,7 @@ export const BlogService = {
   getAllBlogs: async () => {
     return await blogRepo.getAllBlogs();
   },
+  getBlogById: async (id: string) => {
+    return await blogRepo.getBlogById(id);
+  },
 };

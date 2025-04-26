@@ -17,6 +17,7 @@ import {
   getProductSpecial,
   getProductWithFillController,
   updateProductController,
+  searchActiveProductsController
 } from "../controllers/product.controller";
 import { CreateProductDTO } from "../dtos/product/create-product.dto";
 import { UpdateProductDTO } from "../dtos/product/update-product.dto";
@@ -75,6 +76,11 @@ productRoutes.get(
   "/get-with-fill",
   transformAndValidate(ProductFillDTO),
   catchAsync(getProductWithFillController)
+);
+
+productRoutes.get(
+  "/search",
+  catchAsync(searchActiveProductsController)
 );
 
 export default productRoutes;

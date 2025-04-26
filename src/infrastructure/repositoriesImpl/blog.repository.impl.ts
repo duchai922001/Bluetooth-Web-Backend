@@ -1,7 +1,6 @@
-import { IBlogRepository } from "../../domain/repositories/blog.repository";
 import Blog, { IBlog } from "../model/blog.model";
 
-export class BlogRepositoryImpl implements IBlogRepository {
+export class BlogRepositoryImpl {
   async getAllBlogs(): Promise<IBlog[]> {
     return await Blog.find();
   }
@@ -14,5 +13,8 @@ export class BlogRepositoryImpl implements IBlogRepository {
   }
   async getBlogByCategoryNewId(categoryNewId: string): Promise<IBlog[]> {
     return await Blog.find({ categoryNewId }).sort({ createdAt: -1 });
+  }
+  async getBlogById(id: string): Promise<IBlog | null> {
+    return await Blog.findById(id);
   }
 }

@@ -288,3 +288,38 @@ export const getProductWithFillService = async (fillDto: ProductFillDTO) => {
     throw new BadRequestException('Error fetching products');
   }
 };
+
+export const searchActiveProductsService = async (searchTerm?: string) => {
+  const query: any = { isDeleted: false };
+
+  if (searchTerm) {
+    query.name = { $regex: new RegExp(searchTerm, 'i') };
+  }
+
+  const products = await productRepository.findProducts(query, {
+    skip: 0,
+    limit: 5, // Giới hạn chỉ lấy 5 sản phẩm
+    sort: { createdAt: -1 }
+  });
+
+  return products.map(product => {
+    let displayPrice = product.price;
+    let displaySalePrice = product.salePrice;
+
+    if (product.variants && product.variants.length > 0) {
+      const lowestPriceVariant = product.variants.reduce((prev, current) =>
+        prev.price < current.price ? prev : current
+      );
+      displayPrice = lowestPriceVariant.price;
+      displaySalePrice = lowestPriceVariant.salePrice;
+    }
+
+    return {
+      id: product._id,
+      name: product.name,
+      imageThumbnailUrl: product.imageThumbnailUrl,
+      price: displayPrice,
+      salePrice: displaySalePrice
+    };
+  });
+};

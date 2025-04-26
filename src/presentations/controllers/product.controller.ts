@@ -11,6 +11,7 @@ import {
   getProductsService,
   getProductWithFillService,
   updateProductService,
+  searchActiveProductsService,
 } from "../../services/product.service";
 import { successResponse } from "../../utils/response-success.util";
 import { HttpStatus } from "../../domain/enums/http-status.enum";
@@ -118,3 +119,12 @@ export const getProductWithFillController = async (req: Request, res: Response) 
     ok: true
   });
 };
+
+export const searchActiveProductsController = async (req: Request, res: Response) => {
+  const { searchTerm } = req.query;
+  const products = await searchActiveProductsService(searchTerm as string);
+  res.json(
+    successResponse(HttpStatus.OK, "Search Products Successfully", products)
+  );
+};
+

@@ -26,4 +26,9 @@ export const BlogController = {
     const data = await BlogService.getAllBlogs();
     return res.json(successResponse(HttpStatus.OK, "Get All Blogs Success", data));
   },
+  getBlogById: async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const data = await BlogService.getBlogById(id);
+    return res.json(successResponse(HttpStatus.OK, "Get Blog Success", data));
+  },
 };
