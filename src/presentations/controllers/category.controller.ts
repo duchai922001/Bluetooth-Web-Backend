@@ -13,6 +13,7 @@ import {
   updateCategoryService,
   updateOrderCategoryService,
   getCategoryNameByIdService,
+  getCategoryUrlByIdService,
 } from "../../services/category.service";
 import { HttpStatus } from "../../domain/enums/http-status.enum";
 import { successResponse } from "../../utils/response-success.util";
@@ -130,4 +131,10 @@ export const getCategoryNameByIdController = async (req: Request, res: Response)
   const categoryId = req.params.categoryId;
   const categoryName = await getCategoryNameByIdService(categoryId);
   res.json(successResponse(HttpStatus.OK, "Get Category Name Success", { name: categoryName }));
+};
+
+export const getCategoryUrlByIdController = async (req: Request, res: Response) => {
+  const categoryId = req.params.categoryId;
+  const categoryUrl = await getCategoryUrlByIdService(categoryId);
+  res.json(successResponse(HttpStatus.OK, "Get Category URL Success", { url: categoryUrl }));
 };

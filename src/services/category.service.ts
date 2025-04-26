@@ -238,3 +238,11 @@ export const getCategoryNameByIdService = async (categoryId: string): Promise<st
   }
   return categoryName;
 };
+
+export const getCategoryUrlByIdService = async (categoryId: string): Promise<string> => {
+  const category = await categoryRepositry.findCategoryById(categoryId);
+  if (!category) {
+    throw new NotFoundException("Không tìm thấy category");
+  }
+  return category.url;
+};
