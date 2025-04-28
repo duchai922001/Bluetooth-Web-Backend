@@ -17,13 +17,24 @@ specificaionRoutes.put(
   "/update/:id",
   catchAsync(SpecificationController.updateSpecification)
 );
-specificaionRoutes.get(
-  "/:categoryId",
-  catchAsync(SpecificationController.getSpecificationByCategoryId)
+// Add the delete route before the generic routes to prevent routing conflicts
+specificaionRoutes.delete(
+  "/delete/:id",
+  catchAsync(SpecificationController.deleteSpecificationById)
 );
+
+specificaionRoutes.delete(
+  "/hard-delete/:id",
+  catchAsync(SpecificationController.hardDeleteSpecificationById)
+);
+
 specificaionRoutes.get(
   "/get-filter-category/:categoryUrl",
   catchAsync(SpecificationController.getSpecificationByCategoryUrl)
+);
+specificaionRoutes.get(
+  "/:categoryId",
+  catchAsync(SpecificationController.getSpecificationByCategoryId)
 );
 
 export default specificaionRoutes;
