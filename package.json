@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "start": "node ./dist/index.js",
+    "build": "./node_modules/.bin/tsc",
     "watch:server": "node ./dist/index.js"
   },
   "engines": {
