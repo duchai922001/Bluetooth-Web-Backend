@@ -45,7 +45,7 @@ export const getBrandsActiveController = async (
   res: Response
 ) => {
   const brands = await getBrandsActive();
-  res.json(successResponse(HttpStatus.OK, "Get Brands Active", brands));
+  res.json(successResponse(HttpStatus.OK, "Get Brands Active Success", brands));
 };
 
 export const updateBrandController = async (
